@@ -4,11 +4,7 @@
  * BACKEND
  */
 // Backend server
-export const URL_API = `https://api.archivo.comisiondelaverdad.co`;
-export const URL_S3 = `https://nd-lucy-cdt-archive.s3.amazonaws.com/web_files`;
-export const URL_S3_ORI = `https://nd-lucy-cdt-archive.s3.amazonaws.com`;
-// export const URL_API = `${process.env.REACT_APP_BACK}`;
-// export const URL_API = `http://localhost:11000`;
+export const URL_API = `https://mined.bit-sol.com.co/api`;
 
 /**
  * RESULTS

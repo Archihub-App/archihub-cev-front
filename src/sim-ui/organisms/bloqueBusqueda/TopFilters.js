@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useNavigate } from "react-router-dom"
 import Box from "@material-ui/core/Box"
 import Container from "@material-ui/core/Container"
@@ -406,188 +406,28 @@ const TopFilter = props => {
 	const [selectedFondo, setSelectedFondo] = useState(null)
 
 
-	const setFiltersParams = () => {
-		let change = false
-		const filters = {
-			tipo: '',
-			query: '',
-			temporal: '',
-			dpto: '',
-			fondos: '',
-			tviolencia: '',
-			tactores: '',
-			origin: '',
-			children: ''
-		}
-		if (props.children && props.children !== null) {
-			if (searchParams.get("children") !== props.children) {
-				change = true
-				filters['children'] = 'true'
-			} else {
-				filters['children'] = 'true'
-			}
-		}
-		if (props.origin !== '' && props.origin !== null) {
-			if (searchParams.get("origin") !== props.origin) {
-				change = true
-				filters['origin'] = props.origin
-			} else {
-				filters['origin'] = props.origin
-			}
-		} else {
-			// change = true
-			// filters.pop('origin')
-		}
-		if (props.tipoViolencia && props.tipoViolencia !== null) {
-			if (searchParams.get("tviolencia") !== props.tipoViolencia) {
-				change = true
-				filters['tviolencia'] = props.tipoViolencia
-			} else {
-				filters['tviolencia'] = props.tipoViolencia
-			}
-		}
-		if (props.tipoActores && props.tipoActores !== null) {
-			if (searchParams.get("tactores") !== props.tipoActores) {
-				change = true
-				filters['tactores'] = props.tipoActores
-			} else {
-				filters['tactores'] = props.tipoActores
-			}
-		}
-		if (props.tipo && props.tipo !== null) {
-			if (searchParams.get("tipo") !== props.tipo) {
-				change = true
-				filters['tipo'] = props.tipo
-			} else {
-				filters['tipo'] = props.tipo
-			}
-		} else if (props.tipo === undefined || props.tipo === null) {
-			change = true
-			filters['tipo'] = ''
-		}
-		if (keyword !== '') {
-			if (searchParams.get("query") !== keyword) {
-				change = true
-				filters['query'] = keyword
-			} else {
-				filters['query'] = keyword
-			}
-		}
-		if (props.temporalRange) {
-			if (searchParams.get("temporal") !== props.temporalRange) {
-				change = true
-				filters['temporal'] = props.temporalRange
-			} else {
-				filters['temporal'] = props.temporalRange
-			}
-		}
-		if (props.dpto) {
-			if (searchParams.get("dpto") !== props.dpto.divipola + '|' + props.dpto.nombre) {
-				change = true
-				filters['dpto'] = props.dpto.divipola + '|' + props.dpto.nombre
-			} else {
-				filters['dpto'] = props.dpto.divipola + '|' + props.dpto.nombre
-			}
-		}
-		if (props.fondos.length > 0) {
-			if (searchParams.get("fondos") !== props.fondos.map(d => d.id).join('|')) {
-				change = true
-				filters['fondos'] = props.fondos.map(d => d.id).join('|')
-			} else {
-				filters['fondos'] = props.fondos.map(d => d.id).join('|')
-			}
-		}
-		if (props.page > 1 && !change) {
-			filters['page'] = props.page
-		}
-		if (change) {
-			filters['page'] = 1
-		}
-
-		change && setSearchParams(filters)
-		props.page > 1 && !change && setSearchParams(filters)
-	}
+	useEffect(() => {
+		let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
+		setKeyword(k)
+	}, [searchParams]);
 
 	const onSearchSubmit = e => {
 		e.preventDefault()
-		keyword === "" ? props.setKeyword("") : props.setKeyword(keyword)
+		// go to search page with keyword as param
+		if (keyword.trim() === '') {
+			history('/explora/buscador')
+		} else {
+			history(`/explora/buscador?keyword=${keyword}`)
+		}
 	}
 
 	const onChangeSearch = e => {
 		setKeyword(e.target.value)
-		setActive(true)
 	}
 
 	const onSearchBlur = (state = false) => {
 		setActive(state)
 	}
-
-	useEffect(() => {
-		if (searchParams.get("origin") !== '') props.setOrigin(searchParams.get("origin"))
-		else props.setOrigin('recursos')
-
-		if (searchParams.get("query")) {
-			setKeyword(searchParams.get("query"))
-			props.setKeyword(searchParams.get("query"))
-
-			if (!searchParams.get("page")) props.setPage(1)
-		}
-		if (searchParams.get("tipo") !== '') {
-			props.setTipo(searchParams.get("tipo"))
-			if (!searchParams.get("page")) props.setPage(1)
-		} else {
-			props.setTipo(null)
-		}
-		if (searchParams.get("tviolencia")) {
-			props.setTipoViolencia(searchParams.get("tviolencia"))
-			if (!searchParams.get("page")) props.setPage(1)
-		}
-		if (searchParams.get("children")) {
-			console.log("HOLA", searchParams.get("children"))
-			props.setChildren('true')
-		}
-		if (searchParams.get("tactores")) {
-			props.setTipoActores(searchParams.get("tactores"))
-			if (!searchParams.get("page")) props.setPage(1)
-		}
-		if (searchParams.get("page")) props.setPage(parseInt(searchParams.get("page")))
-		if (searchParams.get("dpto")) props.setDpto({
-			divipola: searchParams.get("dpto").split('|')[0],
-			nombre: searchParams.get("dpto").split('|')[1]
-		})
-		if (searchParams.get("temporal")) props.setTemporalRange(searchParams.get("temporal"))
-		if (searchParams.get("fondos")) {
-			var params = searchParams.get("fondos").split('|')
-			props.setFondo(params.map(d => { return { id: d } }))
-		}
-	}, [searchParams])
-
-	useEffect(() => {
-		let timer1 = setTimeout(() => {
-			setFiltersParams()
-		}, 100);
-		return () => {
-			clearTimeout(timer1);
-		};
-	}, [props.keyword, props.tipo, props.temporalRange, props.dpto, props.fondos, props.tipoViolencia, props.tipoActores, props.origin, props.children])
-
-	useEffect(() => {
-		let timer1 = setTimeout(() => {
-			// console.log(props.page)
-			setFiltersParams()
-		}, 0);
-		return () => {
-			clearTimeout(timer1);
-		};
-	}, [props.page])
-
-	useEffect(() => {
-		if (props.fondos.length > 0) {
-			getMetadataRGBulk(props.fondos.map(f => f.id).join('|')).then(res => {
-				setFondosMetadata(res.reverse())
-			})
-		}
-	}, [props.fondos])
 
 	const changeFondosView = () => {
 		setFondosView(!fondosView)
@@ -622,8 +462,7 @@ const TopFilter = props => {
 							{keyword !== '' &&
 								<CloseIcon
 									onClick={() => {
-										setKeyword('')
-										props.setKeyword('')
+										history('/explora/buscador')
 									}}
 								/>
 							}

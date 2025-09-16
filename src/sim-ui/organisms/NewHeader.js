@@ -139,8 +139,12 @@ const NewHeader = (props) => {
             </div>
             <Typography variant="h6" noWrap style={{
               marginLeft: '150px',
+              fontSize: '1.2em',
+              color: '#222',
             }}>
-              Ministerio de Educación Nacional
+              Mineducación <span style={{
+                color: '#6E3092',
+              }}>| Repositorio de Información VES</span>
             </Typography>
           </Toolbar>
         </AppBar>

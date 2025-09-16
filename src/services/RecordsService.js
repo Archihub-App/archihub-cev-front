@@ -1,4 +1,4 @@
-import { URL_API, URL_S3 } from "../config/const";
+import { URL_API } from "../config/const";
 
 export function serviceImage(filename) {
   const path = "/api/records/image/" + filename;
@@ -23,9 +23,7 @@ export function serviceImageResize(id, size = "large") {
 
   size !== "large" ? (path += "_" + size) : (path += "_large");
 
-  console.log('new S3 link')
-
-  return URL_S3 + path + '.jpg'
+  return URL_API + path + '.jpg'
 
   // var miInit = {
   //   method: "GET",
@@ -43,7 +41,7 @@ export function serviceImageResize(id, size = "large") {
 }
 
 export function serviceStream(id, format, support) {
-  let path = URL_S3
+  let path = URL_API
   console.log(support)
   if(support === 'Video') path += '/export_video'
   else if(support === 'Audio') path += '/export_audio'
@@ -74,7 +72,7 @@ export function serviceContentDocumentByIdent(ident) {
 }
 
 export function serviceFile(ident) {
-  let path = URL_S3 + "/documents/" + ident + '.pdf';
+  let path = URL_API + "/documents/" + ident + '.pdf';
 
   return path
 
@@ -96,7 +94,7 @@ export function serviceFile(ident) {
 }
 
 export function serviceMicrodataFile(ident, type) {
-  let path = URL_S3 + "/documents/" + ident + '_min.csv';
+  let path = URL_API + "/documents/" + ident + '_min.csv';
 
   return path
 

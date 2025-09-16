@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
-import * as SearchService from "../../../services/SearchService";
+// import * as SearchService from "../../../services/SearchService";
+import * as SearchService from "../../../services/ArchihubService"
 
 import Lottie from "react-lottie";
 import animationData from "../../../assets/loading_cev.json";
 import * as Scroll from 'react-scroll';
+import { useSearchParams } from "react-router-dom";
 
 
 import { Box, Grid, Input } from "@material-ui/core";
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 15,
 
     "& .pagination-input": {
-      backgroundColor: '#2a5080',
+      backgroundColor: '#6E3092',
       color: '#fff',
       paddingLeft: 20,
       paddingRight: 20,
@@ -81,6 +83,7 @@ const ResultadosBusqueda = (props) => {
   const [total, setTotal] = useState(0);
   const [temporal, setTemporal] = useState(false);
   const [controller, setController] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [t, i18n] = useTranslation("common");
   const view = props.view ? props.view : "rows";
@@ -90,22 +93,12 @@ const ResultadosBusqueda = (props) => {
   if (total % size > 0) count = count + 1;
 
   useEffect(() => {
-    let timer1 = setTimeout(() => busqueda(), 250);
-    return () => {
-      clearTimeout(timer1);
-    };
-  }, [
-    props.keyword,
-    props.page,
-    props.temporalRange,
-    props.dpto,
-    props.idents,
-    props.tipo,
-    props.fondo,
-    props.tipoViolencia,
-    props.tipoActores,
-    props.children
-  ]);
+    let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
+
+    busqueda({
+      keyword: k,
+    })
+  }, [searchParams]);
   // useEffect(() => {
   //   // setTemporal(props.temporalRange);
   //   let timer1 = setTimeout(() => busqueda(), 250);
@@ -114,46 +107,29 @@ const ResultadosBusqueda = (props) => {
   //   };
   // }, [props.temporalRange]);
 
-  const busqueda = async () => {
+  const busqueda = (f) => {
     setLoading(true);
     props.setTotal(null);
     setResultados([])
     scroll.scrollToTop({
       duration: 0
     })
-    const from = (props.page - 1) * size;
-    let filters = {};
 
-    if (props.temporalRange !== null)
-      filters.temporalCoverage = props.temporalRange;
-
-    if (props.dpto !== null) filters.dpto = props.dpto;
-    if (props.tipo !== null) filters.tipo = props.tipo;
-    if (props.fondo !== null && props.fondo.length > 0)
-      filters.fondo = props.fondo.map((f) => {
-        if (f) return f.id;
-      });
-    if (props.idents !== null) filters.idents = props.idents;
-    if (props.place !== null) filters.place = props.place;
-    if (props.tipoViolencia !== null) filters.tipoViolencia = props.tipoViolencia;
-    if (props.tipoActores !== null) filters.tipoActores = props.tipoActores;
-    if (props.children !== null && props.fondo !== null && props.fondo.length > 0) {
-      const children = await getAllChildren(props.fondo[0].id)
-      filters.fondo = [...filters.fondo, ...children.map(c => c.id)]
+    let filters = {
+      post_type: ['unidad-documental'],
+      activeColumns: [
+        {
+          destiny: 'metadata.firstLevel.title'
+        }
+      ],
+      ...f
     }
 
-    // SearchService.serviceKeywordMuseo(props.keyword, from, filters).then(
-    //   (data) => {
-    //     setLoading(false);
-    //     setResultados(data.hits);
-    //     setTotal(data.total.value);
-    //     props.setTotal(data.total.value);
-    //     props.setBuckets(data.buckets);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    // );
+    SearchService.search(filters).then((data) => {
+      setResultados(data.resources);
+    }).catch(e => {
+      setLoading(false);
+    })
   };
 
   return (
@@ -174,7 +150,7 @@ const ResultadosBusqueda = (props) => {
               </Box> */}
               <Grid container spacing={3} mt={4}>
                 {resultados.map((r, i) => {
-                  if (r._source.document) {
+                  if (r) {
                     return (
                       <Grid
                         item
@@ -184,24 +160,25 @@ const ResultadosBusqueda = (props) => {
                       >
                         <TarjetaDocumento
                           place={props.place}
-                          index={`${i}-${r._source.document.ident}`}
-                          key={`${i}-${r._source.document.ident}`}
-                          name={r._source.document.metadata.firstLevel.title}
+                          index={`${i}-${r.ident}`}
+                          key={`${i}-${r.ident}`}
+                          id={r.id}
+                          name={r.metadata.firstLevel.title}
                           description={
-                            r._source.document.metadata.firstLevel.description
+                            r.metadata.firstLevel.description
                           }
-                          url={r._source.document.metadata.firstLevel.url}
-                          fondo={r._source.document.type}
-                          records={r._source.document.records}
-                          ident={r._source.document.ident}
-                          simpleident={r._source.document.metadata.simpleident}
-                          slug={r._source.document.metadata.slug}
+                          url={r.metadata.firstLevel.url}
+                          fondo={r.type}
+                          records={r.records}
+                          ident={r.ident}
+                          simpleident={r.metadata.simpleident}
+                          slug={r.metadata.slug}
                           geo={
-                            r._source.document.metadata.firstLevel
+                            r.metadata.firstLevel
                               .geographicCoverage
                           }
                           time={
-                            r._source.document.metadata.firstLevel
+                            r.metadata.firstLevel
                               .temporalCoverage
                           }
                           actualizarBusqueda={props.actualizar}

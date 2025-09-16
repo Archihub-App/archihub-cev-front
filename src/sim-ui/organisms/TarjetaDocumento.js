@@ -192,25 +192,25 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
 
     '&.dark': {
-      borderColor: '#bfcad9',
+      borderColor: '#6E3092',
 
       "& path": {
-        fill: '#bfcad9',
+        fill: '#6E3092',
       },
 
       '&.active': {
         "& path": {
-          fill: theme.palette.primary.dark,
+          fill: 'white',
         },
       }
     },
 
     "&.active": {
-      backgroundColor: "#bfcad9",
-      color: theme.palette.primary.dark,
+      backgroundColor: "#6E3092",
+      color: 'white',
 
       "& path": {
-        fill: theme.palette.primary.dark,
+        fill: 'white',
       },
     },
     [theme.breakpoints.down("md")]: {
@@ -535,7 +535,7 @@ const TarjetaDocumento = (props) => {
         <CardHeader
           className={props.place === "conoce" ? `${classes.headCard} dark` : classes.headCard}
           avatar={
-            <Link to={`/explora/detalle/${props.ident}`}>
+            <Link to={`/explora/detalle/${props.id}`}>
               <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
                 <FolderTwoToneIcon />
               </Avatar>
@@ -583,7 +583,7 @@ const TarjetaDocumento = (props) => {
               name={props.ident}
               id={props.idSection}
               data-cy='internal-card-link'
-              to={`/explora/detalle/${props.ident}`}
+              to={`/explora/detalle/${props.id}`}
             >
               {props.name}
             </Link>
@@ -595,146 +595,8 @@ const TarjetaDocumento = (props) => {
           }}
         />
 
-        {props.imagen !== undefined && <></>}
-
         <CardActions className={`${classes.cardActions} ${props.place === 'conoce' ? 'dark' : ''}`} disableSpacing>
-          <Toolbar>
-            {/* {
-							(props.slug)? (<Link to={`/explora/detalle/${props.slug}`}>
-							<Button
-								color="primary"
-								variant="outlined"
-								className={classes.btnLinkCard}
-								startIcon={<LinkIcon />}
-								onClick={() => {
-									setSearchToBack()
-
-								}}
-							/>
-						</Link>) : ''
-						} */}
-
-            {view === "rows" && (
-              <Button
-                color={tab === "info" && expanded ? "secondary" : "primary"}
-                onClick={() => {
-                  handleExpandToolbarClick("info");
-                }}
-                variant="outlined"
-                className={
-                  tab === "info" && expanded
-                    ? `${classes.btnCardInfo} ${props.place === 'conoce' ? 'dark' : ''} active`
-                    : `${classes.btnCardInfo} ${props.place === 'conoce' ? 'dark' : ''}`
-                }
-                startIcon={<ImportContactsTwoToneIcon />}
-              >
-                Información
-              </Button>
-            )}
-
-            {Object.keys(recordsType).map((k, i) => {
-              let icon = <ImportContactsTwoToneIcon />;
-
-              switch (k) {
-                case "Documento":
-                  icon = <ArticleTwoToneIcon />;
-                  break;
-                case "Video":
-                  icon = <MovieCreationTwoToneIcon />;
-                  break;
-                case "Galería fotográfica":
-                  icon = <CollectionsTwoToneIcon />;
-                  break;
-                case "Audio":
-                  icon = <AudiotrackTwoToneIcon />;
-                  break;
-                default:
-                  icon = <ErrorTwoToneIcon />;
-                  break;
-              }
-
-              return (
-                <Button
-                  color={tab === k && expanded ? "neutral" : "primary"}
-                  onClick={() => {
-                    handleExpandToolbarClick(k);
-                  }}
-                  className={
-                    tab === k && expanded
-                      ? `${classes.btnCard} ${props.place === 'conoce' ? 'dark' : ''} active`
-                      : `${classes.btnCard} ${props.place === 'conoce' ? 'dark' : ''}`
-                  }
-                  startIcon={icon}
-                >
-                  {props.pieza && piezaRecords ? (
-                    <>
-                      {piezaType === "galeria" ? (
-                        <>
-                          <span className={classes.btnTipoLabel}>{k}</span>
-                          <span className={classes.btnTipoLabelNum}>
-                            {piezaRecords.length}
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          {(piezaType === "audio" || piezaType === "video") &&
-                            props.place === "conoce" ? (
-                            <span className={classes.btnTipoLabel}>{k}</span>
-                          ) : (
-                            <>
-                              <span className={classes.btnTipoLabel}>{k}</span>
-                              <span className={classes.btnTipoLabelNum}>
-                                {recordsType[k]}
-                              </span>
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <span className={classes.btnTipoLabel}>{k}</span>
-                      <span className={classes.btnTipoLabelNum}>
-                        {recordsType[k]}
-                      </span>
-                    </>
-                  )}
-                </Button>
-              );
-            })}
-
-            {/* {props.url && (
-              <Button
-                color={tab === "Embebido" && expanded ? "primary" : "secondary"}
-                onClick={() => {
-                  handleExpandToolbarClick("Embebido");
-                }}
-                className={
-                  tab === "Embebido" && expanded
-                    ? `${classes.btnCard} active`
-                    : classes.btnCard
-                }
-                startIcon={<ExtensionTwoToneIcon />}
-              >
-                <>
-                  <span className={classes.btnTipoLabel}>Externo</span>
-                  <span className={classes.btnTipoLabelNum}>1</span>
-                </>
-              </Button>
-            )} */}
-            
-          </Toolbar>
-
-          {view === "rows" && (
-            <IconButton
-              className={`${expanded ? classes.expandOpen : classes.expand} ${props.place === 'conoce' ? 'dark' : ''}`}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="ver más"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          )}
+          
         </CardActions>
 
         {view === "rows" && (
@@ -750,104 +612,7 @@ const TarjetaDocumento = (props) => {
                 </>
               ) : (
                 <>
-                  {tab === "Galería fotográfica" ? (
-                    <>
-                      <GaleriaTarjeta
-                        lectura={props.lectura}
-                        modificacionPieza={props.modificacionPieza}
-                        imagenesSeleccionadas={piezaRecords}
-                        place={props.place}
-                        imagenes={props.records.filter(
-                          (d) => d.support === tab,
-                        )}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      {tab === "Audio" || tab === "Video" ? (
-                        <>
-                          <ListadoAudios
-                            lectura={props.lectura}
-                            audios={props.records.filter(
-                              (d) => d.support === tab,
-                            )}
-                            modificacionPieza={props.modificacionPieza}
-                            place={props.place}
-                            pieza={props.pieza}
-                            name={`${props.name}`}
-                          />
-                        </>
-                      ) : (
-                        <>
-                          {tab === "Embebido" ? (
-                            <>
-                              <PiezaVideoEmbebido
-                                value={props.url}
-                                path={props.url}
-                                lectura={true}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              {tab === "Visualización" &&
-                                props.records.length > 0 ? (
-                                <>
-                                  <VizViewer
-                                    record={props.records.find(
-                                      (d) => d.support === tab,
-                                    )}
-                                    metadata={
-                                      props.records.find(
-                                        (d) => d.support === tab,
-                                      ).metadata.firstLevel
-                                    }
-                                  />
-                                </>
-                              ) : (
-                                <>
-                                  {tab === "Documento" &&
-                                    props.records.length > 0 ? (
-                                    <>
-                                      <ListadoDocumentos
-                                        modificacionPieza={
-                                          props.modificacionPieza
-                                        }
-                                        documents={props.records.filter((d) => d.support === tab)}
-                                        place={props.place}
-                                        piece={props.pieza}
-                                        name={`${props.name}`}
-                                      />
-                                    </>
-                                  ) : (
-                                    <>
-                                      <List disablePadding component="nav">
-                                        {props.records
-                                          .filter((d) => d.support === tab)
-                                          .map((r) => {
-                                            return (
-                                              <ListItem>
-                                                <ListItemIcon>
-                                                  <DescriptionIcon />
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                  primary={
-                                                    r.metadata.firstLevel.title
-                                                  }
-                                                />
-                                              </ListItem>
-                                            );
-                                          })}
-                                      </List>
-                                    </>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          )}
-                        </>
-                      )}
-                    </>
-                  )}
+                  
                 </>
               )}
             </CardContent>
