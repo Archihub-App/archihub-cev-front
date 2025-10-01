@@ -93,19 +93,34 @@ const ResultadosBusqueda = (props) => {
   if (total % size > 0) count = count + 1;
 
   useEffect(() => {
+    console.log(props.dpto)
     let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
 
-    busqueda({
+    let fiters_ = {
       keyword: k,
-    })
-  }, [searchParams]);
-  // useEffect(() => {
-  //   // setTemporal(props.temporalRange);
-  //   let timer1 = setTimeout(() => busqueda(), 250);
-  //   return () => {
-  //     clearTimeout(timer1);
-  //   };
-  // }, [props.temporalRange]);
+      date_filters: [],
+      location_filters: []
+    }
+
+    if (props.temporalRange) {
+      fiters_.date_filters.push({
+        field: 'metadata.firstLevel.datedescription',
+        value: props.temporalRange
+      })
+    }
+    if (props.dpto) {
+      fiters_.location_filters.push({
+        field: 'metadata.firstLevel.geographicdescriptors',
+        value: [
+          {
+            level_0: { ident: "CO", name: "Colombia" },
+            level_1: { ident: props.dpto.divipola, name: props.dpto.nombre }
+          }
+        ]
+      })
+    }
+    busqueda(fiters_)
+  }, [searchParams, props.temporalRange, props.dpto]);
 
   const busqueda = (f) => {
     setLoading(true);

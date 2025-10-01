@@ -16,7 +16,7 @@ const Colombia = props => {
     if (fColor === undefined) fColor = '#FFF'
     if (bColor === undefined) bColor = '#FFF'
     if (pColor === undefined) pColor = '#333'
-    if (dColor === undefined) dColor = theme.palette.primary.light
+    if (dColor === undefined) dColor = '#6E3092'
 
     let width = 954,
         height = 954,

@@ -34,6 +34,7 @@ import ListadoDocumentos from "./extraCard/ListadoDocumentos";
 import PiezaVideoEmbebido from "./PiezaVideoEmbebido";
 import VizViewer from "./../molecules/VizViewer";
 import * as ColletionService from "../../services/BookmarkCollectionService";
+import * as ArchihubService from "../../services/ArchihubService";
 import { useTranslation } from "react-i18next";
 import ImportContactsTwoToneIcon from "@mui/icons-material/ImportContactsTwoTone";
 import ArticleTwoToneIcon from "@mui/icons-material/ArticleTwoTone";
@@ -44,6 +45,7 @@ import AudiotrackTwoToneIcon from "@mui/icons-material/AudiotrackTwoTone";
 import ExtensionTwoToneIcon from "@mui/icons-material/ExtensionTwoTone";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import DownloadIcon from '@mui/icons-material/Download';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -416,13 +418,6 @@ const TarjetaDocumento = (props) => {
     };
   };
 
-  // Función que se ejecuta cuando los bookmarks del usuario cambian
-  useEffect(() => {
-    if (props.currentBookmarks.includes(props.ident)) {
-      setSelected(true);
-    }
-  }, [props.currentBookmarks]);
-
   const defineTypeRecurso = () => {
     try {
       if (props.pieza) {
@@ -523,6 +518,10 @@ const TarjetaDocumento = (props) => {
     if (props.textSearchToBack) props.SetSearchToBack(props.textSearchToBack);
   };
 
+  const handleDownload = () => {
+    ArchihubService.downloadResource(props.id,  (progress) => {});
+  }
+
   return (
     <>
       <Card
@@ -535,11 +534,11 @@ const TarjetaDocumento = (props) => {
         <CardHeader
           className={props.place === "conoce" ? `${classes.headCard} dark` : classes.headCard}
           avatar={
-            <Link to={`/explora/detalle/${props.id}`}>
+            // <Link to={`/explora/detalle/${props.id}`}>
               <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
                 <FolderTwoToneIcon />
               </Avatar>
-            </Link>
+            // </Link>
           }
           action={
             <>
@@ -578,15 +577,15 @@ const TarjetaDocumento = (props) => {
             </>
           }
           title={
-            <Link
-              className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
-              name={props.ident}
-              id={props.idSection}
-              data-cy='internal-card-link'
-              to={`/explora/detalle/${props.id}`}
-            >
-              {props.name}
-            </Link>
+            // <Link
+            //   className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
+            //   name={props.ident}
+            //   id={props.idSection}
+            //   data-cy='internal-card-link'
+            //   to={`/explora/detalle/${props.id}`}
+            // >
+              props.name
+            // </Link>
           }
           subheader={props.simpleident ? props.simpleident : props.ident}
           titleTypographyProps={{
@@ -596,7 +595,22 @@ const TarjetaDocumento = (props) => {
         />
 
         <CardActions className={`${classes.cardActions} ${props.place === 'conoce' ? 'dark' : ''}`} disableSpacing>
-          
+          <Button
+            className={classes.button}
+            onClick={handleDownload}
+            color={selected ? "primary" : "default"}
+            variant="outlined"
+            style={{
+              marginLeft: 20,
+              color: '#9c73b3'
+            }}
+            size="small"
+            startIcon={<DownloadIcon sx={{
+              color: '#9c73b3'
+            }} />}
+          >
+            Descargar recurso
+          </Button>
         </CardActions>
 
         {view === "rows" && (

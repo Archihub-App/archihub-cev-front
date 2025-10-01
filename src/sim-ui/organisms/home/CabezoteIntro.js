@@ -200,7 +200,7 @@ const CabezoteIntro = props => {
                     </Typography>
 
                     <Box>
-                        <form className={classes.searchForm} onSubmit={() => { navigate(input ? '/explora/buscador?query=' + input : '/explora/buscador') }}>
+                        <form className={classes.searchForm} onSubmit={() => { navigate(input ? '/explora/buscador?keyword=' + input : '/explora/buscador') }}>
                             <Search className={classes.searchIcon} />
                             <InputBase
                                 className={classes.searchInput}

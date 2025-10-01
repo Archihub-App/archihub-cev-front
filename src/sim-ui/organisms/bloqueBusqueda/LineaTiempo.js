@@ -14,22 +14,16 @@ const LineaTiempo = props => {
     const classes = useStyles()
     const { temporalRange } = props
 
-    let min = 1944
-    let max = 2021
+    let min = 2023
+    let max = 2025
 
-    let start = 1944
-    let end = 2021
+    let start = 2023
+    let end = 2025
 
     if (temporalRange) {
         start = temporalRange.split('-')[0]
         end = temporalRange.split('-')[1]
     }
-    // const start = "start" in  tiempo ? new Date(Date.parse(tiempo["start"])).getFullYear():min
-    // const end = "end" in  tiempo ? new Date(Date.parse(tiempo["end"])).getFullYear():max
-
-    // const  sendWithTimeout = () => {
-    //   setTimeout(() => )
-    // }
 
     const handleChange = (e, v) => {
         props.setTemporalRange(v.join('-'))
