@@ -136,32 +136,7 @@ const MuseoHome = (props) => {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/explora/buscador" element={<Explora />} />
-          {/* <Route path="/diccionario" element={<HomeDiccionario />}>
-            <Route
-              path="/diccionario/terminos/:id"
-              element={<DiccionarioTerminos />}
-            />
-            <Route
-              path="/diccionario/campos/:id"
-              element={<DiccionarioTerminos />}
-            />
-            <Route
-              path="/diccionario/termino/:like/:id"
-              element={<TermDiccionario />}
-            />
-            <Route
-              path="/diccionario/campo/:like/:id"
-              element={<FieldDiccionario />}
-            />
-            <Route
-              path="/diccionario/card/:like/:id"
-              element={<CardDiccionario />}
-            />
-            <Route
-              path="/diccionario/busqueda/:id"
-              element={<DiccionarioBusqueda />}
-            />
-          </Route> */}
+          <Route path="/detalle/:id" element={<Detalle />} />
           <Route path="/" element={<Intro />} />
           <Route path="/colecciones" element={<Colecciones />} />
           

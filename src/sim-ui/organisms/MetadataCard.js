@@ -41,6 +41,8 @@ function MetadataCard(props) {
     setFields(props.fields);
   }, [props.fields]);
 
+  console.log("Metadata fields:",props.fields);
+
   return (
     <TableContainer>
       <Table aria-label="customized table">

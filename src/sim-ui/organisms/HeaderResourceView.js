@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import img1 from "../assets/imgs/origami.png";
+import deco from '../assets/explora_img.png'
 
 const useStyles = makeStyles((theme) => ({
   titleTesauro: {
@@ -30,13 +30,20 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     fontWeight: "bold",
-    justifyContent: "start",
-    backgroundColor: "#2a5080",
+    justifyContent: "center",
+    backgroundColor: '#6E3092',
+    padding: 0,
+    color: "white",
+    backgroundImage: `url(${deco})`,
+    backgroundRepeat: 'no-repeat',
+		backgroundSize: 'contain',
+		backgroundPosition: 'left center',
   },
 
   subContainer: {
+    backgroundColor: '#6E3092',
     [theme.breakpoints.down("sm")]: {
-    //   marginLeft: "60px",
+      //   marginLeft: "60px",
     },
   },
 
@@ -60,12 +67,9 @@ const HeaderResourceView = (props) => {
 
   return (
     <div className={classes.header}>
-      <img className={classes.logo} src={img1} alt="" />
       {/* {matches ? "" : <img className={classes.logo} src={img1} alt="" />} */}
       <div className={classes.subContainer}>
         <h3 className={classes.titleTesauro}>{props.title}</h3>
-
-        <span className={classes.subtitle}>Autor: {props.autor}</span>
       </div>
     </div>
   );

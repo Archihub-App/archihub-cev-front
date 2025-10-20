@@ -73,3 +73,24 @@ export function downloadResource(id, onProgress) {
     }));
   });
 }
+
+export function getById(id) {
+  var myHeaders = new Headers({ "Content-Type": "application/json" });
+
+  var miInit = {
+    method: "GET",
+    headers: myHeaders,
+    mode: "cors",
+    cache: "default",
+  };
+
+  const path = "/resources/public/" + id;
+
+  return fetch(URL_API + path, miInit).then(function (response) {
+    if (response.status !== 200) {
+      return Promise.reject(response.status);
+    } else {
+      return response.json();
+    }
+  });
+}

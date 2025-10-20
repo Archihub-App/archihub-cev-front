@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import * as SearchService from "../services/SearchService";
+import * as ArchihubService from "../services/ArchihubService";
 import MainLayout from "../sim-ui/layout/MainLayout";
 import { connect } from "react-redux";
 import * as museo from "../store/ducks/museo.duck";
@@ -32,52 +32,21 @@ const Detalle = (props) => {
 
   const classes = useStyles();
   const { id } = useParams();
+
+
   useEffect(() => {
-    loadBySlug();
+    loadById();
   }, [id]);
-  useEffect(() => {
-    if (searchSimple) loadBySimpleIdent();
-  }, [searchSimple]);
-  useEffect(() => {
-    if (searchIdent) loadByIdent();
-  }, [searchIdent]);
 
-  const loadByIdent = async () => {
+  const loadById = async () => {
     try {
-      const resp = await SearchService.serviceSingleMuseoIdent(id);
-      if (resp && resp.hits && resp.hits.length) {
-        setData(resp.hits[0]._source.document);
-      }
+      const response = await ArchihubService.getById(id);
+      console.log("Resource data:", response);
+      setData(response);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching resource by ID:", error);
     }
-  };
-
-  const loadBySlug = async () => {
-    try {
-      const resp = await SearchService.serviceSingleMuseoSlug(id);
-      console.log(resp);
-      if (resp && resp.hits && resp.hits.length) {
-        setData(resp.hits[0]._source.document);
-      } else {
-        setSearchSimple(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const loadBySimpleIdent = async () => {
-    try {
-      const resp = await SearchService.serviceSingleMuseoSimpleIdent(id);
-      if (resp && resp.hits && resp.hits.length) {
-        setData(resp.hits[0]._source.document);
-      } else {
-        setSearchIdent(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }
 
   return (
     <MainLayout newLayout={true}>
@@ -113,8 +82,6 @@ const Detalle = (props) => {
           )} */}
         {data ? (
           <DetailResource
-            setPreviusUrl={setPreviusUrl}
-            setPreviusUrlLabel={setPreviusUrlLabel}
             resource={data}
           />
         ) : (

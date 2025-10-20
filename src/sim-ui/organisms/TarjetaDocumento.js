@@ -407,7 +407,7 @@ const TarjetaDocumento = (props) => {
       params: {
         title: props.name,
         text: `Recurso Comisión de la Verdad - ${props.name}`,
-        url: `/explora/detalle/${props.ident}`,
+        url: `/detalle/${props.ident}`,
       },
       onShareSuccess: () => {
         console.log("yay! webShare success");
@@ -519,7 +519,7 @@ const TarjetaDocumento = (props) => {
   };
 
   const handleDownload = () => {
-    ArchihubService.downloadResource(props.id,  (progress) => {});
+    ArchihubService.downloadResource(props.id, (progress) => { });
   }
 
   return (
@@ -527,18 +527,18 @@ const TarjetaDocumento = (props) => {
       <Card
         elevation={2}
         className={
-          props.place === "conoce" ? `${classes.root} dark mobile` :  props.place === "white" ? `${classes.root} mobile` : classes.root
+          props.place === "conoce" ? `${classes.root} dark mobile` : props.place === "white" ? `${classes.root} mobile` : classes.root
         }
         key={props.index}
       >
         <CardHeader
           className={props.place === "conoce" ? `${classes.headCard} dark` : classes.headCard}
           avatar={
-            // <Link to={`/explora/detalle/${props.id}`}>
+            <Link to={`/detalle/${props.id}`}>
               <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
                 <FolderTwoToneIcon />
               </Avatar>
-            // </Link>
+            </Link>
           }
           action={
             <>
@@ -577,15 +577,15 @@ const TarjetaDocumento = (props) => {
             </>
           }
           title={
-            // <Link
-            //   className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
-            //   name={props.ident}
-            //   id={props.idSection}
-            //   data-cy='internal-card-link'
-            //   to={`/explora/detalle/${props.id}`}
-            // >
-              props.name
-            // </Link>
+            <Link
+              className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
+              name={props.ident}
+              id={props.idSection}
+              data-cy='internal-card-link'
+              to={`/detalle/${props.id}`}
+            >
+              {props.name}
+            </Link>
           }
           subheader={props.simpleident ? props.simpleident : props.ident}
           titleTypographyProps={{
@@ -626,7 +626,7 @@ const TarjetaDocumento = (props) => {
                 </>
               ) : (
                 <>
-                  
+
                 </>
               )}
             </CardContent>

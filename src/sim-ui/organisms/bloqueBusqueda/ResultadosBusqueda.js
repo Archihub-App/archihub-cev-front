@@ -93,7 +93,6 @@ const ResultadosBusqueda = (props) => {
   if (total % size > 0) count = count + 1;
 
   useEffect(() => {
-    console.log(props.dpto)
     let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
 
     let fiters_ = {

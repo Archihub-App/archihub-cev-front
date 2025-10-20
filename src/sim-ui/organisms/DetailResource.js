@@ -157,10 +157,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DetailResource = (props) => {
   const [record, setRecord] = React.useState(null);
-  const [idmongo, setIdMongo] = React.useState(null);
-  const [identifier, setIndentifier] = React.useState(null);
   const [resource, setResource] = React.useState(props.resource);
-  const [aux_resource, setAuxResource] = React.useState(props.aux_resource);
   const [fields, setFields] = React.useState(null);
   const [fieldsRecord, setFieldsRecord] = React.useState(null);
 
@@ -178,30 +175,12 @@ const DetailResource = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-  useEffect(() => {
-    setIdMongo(props.idmongo);
-  }, [props.idmongo]);
-
-  useEffect(() => {
-    if (idRecord) {
-      getRecord();
-
-      console.log(idRecord);
-    }
-  }, [idmongo]);
   useEffect(() => {
     // getMetaData();
     const list = getMetaData(resource);
     if (list.length) setFields(list);
+    getRecord();
   }, [resource]);
-
-  useEffect(() => {
-    if (record) {
-      const list = getMetaData(record);
-      if (list.length) setFieldsRecord(list);
-    }
-  }, [record]);
 
   const getParams = () => {
     const queryParams = new URLSearchParams(location.search);
@@ -235,9 +214,7 @@ const DetailResource = (props) => {
   useEffect(() => {}, [record]);
 
   const getRecord = async () => {
-    const recordLocal = props.resource.records.filter(
-      (record) => record.idmongo == idRecord,
-    );
+    const recordLocal = props.resource.filesObj
     if (recordLocal.length) {
       setRecord(recordLocal[0]);
     }
@@ -358,7 +335,7 @@ const DetailResource = (props) => {
                     indicatorColor="primary"
                     variant="scrollable"
                   >
-                    <Tab
+                    {/* <Tab
                       icon={
                         <DescriptionTwoTone
                           className={classes.icon}
@@ -372,7 +349,7 @@ const DetailResource = (props) => {
                       }}
                       label="Descripción"
                       {...a11yProps(0)}
-                    />
+                    /> */}
                     <Tab
                       icon={
                         <DescriptionTwoTone
@@ -430,18 +407,6 @@ const DetailResource = (props) => {
                   value={value}
                   index={0}
                 >
-                  <Typography
-                    className={classes.textDescription}
-                    variant="body1"
-                  >
-                    {resource.metadata.firstLevel.description}
-                  </Typography>
-                </TabPanel>
-                <TabPanel
-                  className={`${classes.tabPanel} ${classes.scrollModify}`}
-                  value={value}
-                  index={1}
-                >
                   <MetadataCard fields={fields} />
                 </TabPanel>
                 <TabPanel
@@ -485,26 +450,14 @@ const DetailResource = (props) => {
               flexItem
             />
           </Grid>
-          {idRecord && idRecord != "" ? (
-            <>
-              <Grid item xs={12} sm={6} lg={6}>
-                <DetailResourceRecords
-                  type={type}
-                  records={props.resource.records}
-                  recordCode={idRecord}
-                />
-              </Grid>
-            </>
-          ) : (
-            <>
-              <Grid item xs={12} sm={6} lg={6}>
-                <DetailResourceRecords
-                  type={type}
-                  records={props.resource.records}
-                />
-              </Grid>
-            </>
+          {record && record != null && (
+            <Grid item xs={12} sm={6} lg={6}>
+              <DetailResourceRecords
+                records={props.resource.filesObj}
+              />
+            </Grid>
           )}
+          
         </Grid>
       </div>
     </div>
