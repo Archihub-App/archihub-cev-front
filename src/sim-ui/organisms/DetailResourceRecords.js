@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Chip from "@material-ui/core/Chip";
-import DataUsageIcon from "@material-ui/icons/DataUsage";
-import DescriptionIcon from "@material-ui/icons/Description";
-import MovieCreationIcon from "@material-ui/icons/MovieCreation";
-import ImageIcon from "@material-ui/icons/Image";
-import AudiotrackIcon from "@material-ui/icons/Audiotrack";
-import GaleriaTarjeta from "./extraCard/GaleriaTarjeta";
-import ItemDocumento from "./extraCard/ItemDocumento";
-import ReproductorAudio from "./extraCard/ReproductorAudio";
-import ListadoAudios from "./extraCard/ListadoAudios";
-import VizViewer from "../molecules/VizViewer";
+import { Box, Typography, Chip, CircularProgress } from "@material-ui/core";
+import GetAppIcon from "@material-ui/icons/GetApp";
+import * as ArchihubService from "../../services/ArchihubService";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column"
   },
   document: {},
- 
+
   containerChip: {
     display: "flex",
     justifyContent: "left",
@@ -85,21 +77,105 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
   screen: {
-   // display: "flex",
+    // display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor:"white"
+    backgroundColor: "white"
+  },
+  recordBox: {
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.spacing(1),
+    padding: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+  },
+  recordName: {
+    flex: 1,
+    marginRight: theme.spacing(2),
+  },
+  loadingContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(4),
+  },
+  recordsContainer: {
+    padding: theme.spacing(2),
   },
 
- 
+
 }));
 
 const DetailResourceRecords = (props) => {
+  const classes = useStyles();
+  const [records, setRecords] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [downloading, setDownloading] = useState({});
 
-  
+  useEffect(() => {
+    const fetchRecords = async () => {
+      if (props.records && props.records.length > 0) {
+        setLoading(true);
+        try {
+          const recordPromises = props.records.map(record =>
+            ArchihubService.getRecordById(record.id)
+          );
+          const fetchedRecords = await Promise.all(recordPromises);
+          setRecords(fetchedRecords);
+        } catch (error) {
+          console.error("Error fetching records:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchRecords();
+  }, [props.records]);
+
+  const handleDownload = (recordId) => {
+    setDownloading(prev => ({ ...prev, [recordId]: true }));
+    ArchihubService.downloadRecord(recordId, (progress) => { })
+  };
+
+  if (loading) {
+    return (
+      <div className={classes.loadingContainer}>
+        <CircularProgress />
+      </div>
+    );
+  }
+
+  if (!records || records.length === 0) {
+    return (
+      <div className={classes.recordsContainer}>
+        <Typography variant="body1" color="textSecondary">
+          No hay registros disponibles
+        </Typography>
+      </div>
+    );
+  }
 
   return (
-    <></>
+    <div className={classes.recordsContainer}>
+      {records.map((record) => (
+        <Box key={record.id} className={classes.recordBox}>
+          <Typography variant="p" className={classes.recordName}>
+            {record.name || record.title || `Record ${record.id}`}
+          </Typography>
+          <Chip
+            label={downloading[record.id] ? "Descargando..." : "Descargar"}
+            icon={downloading[record.id] ? <CircularProgress size={20} style={{ color: 'white' }} /> : <GetAppIcon style={{ color: 'white' }} />}
+            onClick={() => handleDownload(record._id.$oid)}
+            className={classes.chipActive}
+            disabled={downloading[record.id]}
+          />
+        </Box>
+      ))}
+    </div>
   )
 };
 
