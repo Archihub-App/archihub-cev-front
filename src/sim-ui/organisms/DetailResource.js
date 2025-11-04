@@ -426,22 +426,7 @@ const DetailResource = (props) => {
               </div>
               <br />
 
-              {type || idRecord ? (
-                <div className={classes.linkContainer}>
-                  <LibraryBooks />
-                  <a
-                    className={classes.link}
-                    onClick={(e) => {
-                      viewAllResource(e);
-                    }}
-                    href=""
-                  >
-                    <spam>Ver el recurso completo</spam>
-                  </a>
-                </div>
-              ) : (
-                ""
-              )}
+              
             </div>
             <Divider
               classes={{ root: classes.divider }}
@@ -454,6 +439,7 @@ const DetailResource = (props) => {
             <Grid item xs={12} sm={6} lg={6}>
               <DetailResourceRecords
                 records={props.resource.filesObj}
+                openRecord={type === 'record'}
               />
             </Grid>
           )}

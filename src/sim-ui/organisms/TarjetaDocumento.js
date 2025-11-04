@@ -46,6 +46,8 @@ import ExtensionTwoToneIcon from "@mui/icons-material/ExtensionTwoTone";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import DownloadIcon from '@mui/icons-material/Download';
+import BookmarksOutlinedIcon from '@mui/icons-material/BookmarksOutlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -577,15 +579,16 @@ const TarjetaDocumento = (props) => {
             </>
           }
           title={
-            <Link
-              className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
-              name={props.ident}
-              id={props.idSection}
-              data-cy='internal-card-link'
-              to={`/detalle/${props.id}`}
-            >
-              {props.name}
-            </Link>
+            
+            // <Link
+            //   className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
+            //   name={props.ident}
+            //   id={props.idSection}
+            //   data-cy='internal-card-link'
+            //   to={`/detalle/${props.id}`}
+            // >
+              <>{props.name}</>
+            // </Link>
           }
           subheader={props.simpleident ? props.simpleident : props.ident}
           titleTypographyProps={{
@@ -596,20 +599,60 @@ const TarjetaDocumento = (props) => {
 
         <CardActions className={`${classes.cardActions} ${props.place === 'conoce' ? 'dark' : ''}`} disableSpacing>
           <Button
+            component={Link}
+            to={`/detalle/${props.id}`}
+            className={classes.button}
+            color={selected ? "primary" : "default"}
+            variant="outlined"
+            style={{
+              marginLeft: 20,
+              color: '#333',
+              borderRadius: 50,
+              borderColor: '#6E3092',
+            }}
+            size="small"
+            startIcon={<BookmarksOutlinedIcon sx={{
+              color: '#333'
+            }} />}
+          >
+            Información
+          </Button>
+          <Button
+            component={Link}
+            to={`/detalle/${props.id}?type=record`}
+            className={classes.button}
+            color={selected ? "primary" : "default"}
+            variant="outlined"
+            style={{
+              marginLeft: 10,
+              color: '#333',
+              borderRadius: 50,
+              borderColor: '#6E3092',
+            }}
+            size="small"
+            startIcon={<RemoveRedEyeOutlinedIcon sx={{
+              color: '#333'
+            }} />}
+          >
+            Previsualizar
+          </Button>
+          <Button
             className={classes.button}
             onClick={handleDownload}
             color={selected ? "primary" : "default"}
             variant="outlined"
             style={{
-              marginLeft: 20,
-              color: '#9c73b3'
+              marginLeft: 10,
+              color: '#333',
+              borderRadius: 50,
+              borderColor: '#6E3092',
             }}
             size="small"
             startIcon={<DownloadIcon sx={{
-              color: '#9c73b3'
+              color: '#333'
             }} />}
           >
-            Descargar recurso
+            Descargar
           </Button>
         </CardActions>
 
