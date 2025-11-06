@@ -109,7 +109,7 @@ const ResultadosBusqueda = (props) => {
     }
     if (props.dpto) {
       fiters_.location_filters.push({
-        field: 'metadata.firstLevel.geographicdescriptors',
+        destiny: 'metadata.firstLevel.geographicdescriptors',
         value: [
           {
             level_0: { ident: "CO", name: "Colombia" },
