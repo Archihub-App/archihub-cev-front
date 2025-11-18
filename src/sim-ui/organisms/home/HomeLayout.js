@@ -39,7 +39,7 @@ const HomeLayout = props => {
                     <CabezoteIntro />
                 }
 
-                {/* <GridContent /> */}
+                <GridContent />
             </Box>
         </MainLayout>
     )

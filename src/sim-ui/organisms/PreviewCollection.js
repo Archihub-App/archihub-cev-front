@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
   itemCol: {
     minWidth: "200px",
     width: "20%",
-    background: "#19447c",
+    background: "rgba(255,255,255,.1)",
     transition: "all 1s ease",
 
     "& img": {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   itemColHome: {
     margin: theme.spacing(6),
-    background: theme.palette.primary.dark,
+    background: 'rgba(255,255,255,.1)',
     maxWidth: 300,
     transition: "all 1s ease",
     opacity: 1,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "10px",
     maxWidth: "10px",
     height: "5vh",
-    backgroundColor: "#1fc0c8",
+    backgroundColor: "#fff",
     margin: "-8px",
     padding: "0px",
 

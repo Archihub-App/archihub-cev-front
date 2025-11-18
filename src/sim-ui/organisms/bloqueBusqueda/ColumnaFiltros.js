@@ -57,7 +57,7 @@ const ColumnaFiltros = (props) => {
 
           {props.filtros &&
             <Box className={classes.filtros}>
-              <TipoRecurso valores={valores ? valores : []} tipo={props.tipo} setTipo={props.setTipo} />
+              <TipoRecurso padre={props.padre} setPadre={props.setPadre} />
 
               <Temporal
                 temporalRange={props.temporalRange}
@@ -92,7 +92,7 @@ const ColumnaFiltros = (props) => {
 
             {props.origin === 'recursos' &&
               <>
-                {/* <TipoRecurso valores={valores ? valores : []} tipo={props.tipo} setTipo={props.setTipo} /> */}
+                <TipoRecurso padre={props.padre} setPadre={props.setPadre} />
                 <Ubicacion setDpto={props.setDpto} dpto={props.dpto} />
 
                 <Temporal

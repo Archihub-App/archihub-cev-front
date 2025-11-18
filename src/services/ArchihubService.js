@@ -1,7 +1,20 @@
 import { URL_API, PAGE_SIZE } from "../config/const";
+import { getStorage } from "./utils";
+
+// Helper function to get auth headers
+function getAuthHeaders() {
+  const headers = new Headers({ "Content-Type": "application/json" });
+  const token = getStorage("auth_token");
+  
+  if (token) {
+    headers.append("Authorization", `Bearer ${token}`);
+  }
+  
+  return headers;
+}
 
 export function search(filters = {}) {
-  var myHeaders = new Headers({ "Content-Type": "application/json" });
+  var myHeaders = getAuthHeaders();
 
   var miInit = {
     method: "POST",
@@ -28,6 +41,12 @@ export function downloadResource(id, onProgress) {
     xhr.open('POST', URL_API + "/resources/public/download_records", true);
     xhr.responseType = 'blob';
     xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    // Add JWT token if available
+    const token = getStorage("auth_token");
+    if (token) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    }
 
     xhr.addEventListener('progress', (event) => {
       if (event.lengthComputable && onProgress) {
@@ -80,6 +99,12 @@ export function downloadRecord(id, onProgress) {
     xhr.open('POST', URL_API + "/records/public/download", true);
     xhr.responseType = 'blob';
     xhr.setRequestHeader('Content-Type', 'application/json');
+    
+    // Add JWT token if available
+    const token = getStorage("auth_token");
+    if (token) {
+      xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+    }
 
     xhr.addEventListener('progress', (event) => {
       if (event.lengthComputable && onProgress) {
@@ -129,7 +154,7 @@ export function downloadRecord(id, onProgress) {
 }
 
 export function getById(id) {
-  var myHeaders = new Headers({ "Content-Type": "application/json" });
+  var myHeaders = getAuthHeaders();
 
   var miInit = {
     method: "GET",
@@ -150,7 +175,7 @@ export function getById(id) {
 }
 
 export function getRecordById(id) {
-  var myHeaders = new Headers({ "Content-Type": "application/json" });
+  var myHeaders = getAuthHeaders();
 
   var miInit = {
     method: "GET",
@@ -168,4 +193,21 @@ export function getRecordById(id) {
       return response.json();
     }
   });
+}
+
+export const login = async (username, password) => {
+    return fetch(URL_API + "/auth/login", {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+    }).then(response => {
+        if (![200].includes(response.status)) {
+            return Promise.reject(response);
+        }
+        else {
+            return response.json();
+        }
+    })
 }

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from "react";
-import * as SearchService from "../../../services/SearchService";
 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
@@ -18,7 +17,8 @@ import * as Scroll from "react-scroll";
 
 import { Link } from "react-router-dom";
 import PreviewCollection from "../PreviewCollection";
-import listCollections from "../../assets/home/listCollections";
+import * as SearchService from "../../../services/ArchihubService";
+
 
 gsap.registerPlugin(CSSPlugin);
 
@@ -139,11 +139,13 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     height: "0%",
     top: 0,
+    opacity: 0.2,
   },
   columnas: {
     display: "flex",
     overflow: "hidden",
     alignItems: "flex-start",
+    minHeight: "80vh",
   },
   columna: {
     width: "100%",
@@ -231,39 +233,36 @@ const GridContent = (props) => {
   const classes = useStyles();
   const [data, setData] = useState(null);
   const [sizeColumnaItems, setSizeColumnaItems] = useState([]);
-  const elementos = useRef([]);
+  const [filter, setFiltres] = useState([]);
 
   useEffect(() => {
-    // SearchService.serviceCollectionMuseo({}).then(
-    //   (d) => {
-    //     let resp = d.hits.hits;
-    //     resp.sort(() => (Math.random() > 0.5 ? 1 : -1));
+    busqueda({});
 
-    //     let sizeColumnaItems_ = Math.ceil(resp.length / numCol);
-
-    //     setSizeColumnaItems(sizeColumnaItems_);
-    //     setData(resp);
-    //   },
-    //   (error) => {
-    //     console.log(error);
-    //   },
-    // );
-
-    const resp = listCollections.map((d) => {
-      d["ilustration"] = {
-        code: d["Portada"],
-      };
-
-      return d;
-    });
-
-   
+    const resp = filter;
 
     let sizeColumnaItems_ = Math.ceil(resp.length / numCol) + 1;
 
     setSizeColumnaItems(sizeColumnaItems_);
     setData(resp)
   }, []);
+
+  const busqueda = (f) => {
+      let filters = {
+        post_type: ['colecciones'],
+        data_transformation: 'archihub_mined',
+        activeColumns: [
+          {
+            destiny: 'metadata.firstLevel.title'
+          }
+        ],
+        ...f
+      }
+  
+      SearchService.search(filters).then((data) => {
+        setFiltres(data.resources);
+      }).catch(e => {
+      })
+    };
 
   useEffect(() => {
     setTimeout(() => {
@@ -313,7 +312,7 @@ const GridContent = (props) => {
                                 ilustration={
                                   t["ilustration"] ? t["ilustration"] : false
                                 }
-                                title={t["title"]}
+                                title={t.metadata.firstLevel.title}
                                 img={t.img}
                                 enfoque={t.enfoque}
                                 i={i}

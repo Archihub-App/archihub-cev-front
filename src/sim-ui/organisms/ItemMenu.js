@@ -217,13 +217,17 @@ const ItemMenu = (props) => {
             }}
             onClick={() => {
               props.activate(props.item.id);
-              typeof route(props.item.route, props.item.out) === 'string' ? window.location.href = route(props.item.route, props.item.out) : window.location.href = route(props.item.route,props.item.out).pathname
-              
+              // Handle custom onClick if provided (for logout)
+              if (props.item.onClick) {
+                props.item.onClick();
+              } else {
+                typeof route(props.item.route, props.item.out) === 'string' ? window.location.href = route(props.item.route, props.item.out) : window.location.href = route(props.item.route,props.item.out).pathname
+              }
             }}
           button
           exact
             // component={Link}
-          to={route(props.item.route, props.item.out)}
+          to={props.item.onClick ? "#" : route(props.item.route, props.item.out)}
           target={props.item.tab ? "_blank" : ""}
           >
           <ListItemIcon className={classes.listItemIcon}>
@@ -261,12 +265,17 @@ const ItemMenu = (props) => {
       }}
       onClick={() => {
         props.activate(props.item.id);
-        history(route(props.item.route));
+        // Handle custom onClick if provided (for logout)
+        if (props.item.onClick) {
+          props.item.onClick();
+        } else {
+          history(route(props.item.route));
+        }
       }}
       button
       exact
-      component={Link}
-      to={route(props.item.route)}
+      component={props.item.onClick ? "div" : Link}
+      to={props.item.onClick ? "#" : route(props.item.route)}
       target={props.item.tab ? "_blank" : ""}
     >
       <ListItemIcon style={{ minWidth: "unset", marginRight: "5px" }}>

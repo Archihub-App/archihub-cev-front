@@ -1,11 +1,7 @@
 import { lazy, useEffect } from "react";
 import { useLocation, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import * as Scroll from 'react-scroll';
-import Tesauro from "./Tesauro";
-import ReactGA from "react-ga4";
 
 const scroll = Scroll.animateScroll;
 
@@ -13,39 +9,17 @@ const AutoSectionSelect = lazy(() => import("./AutoSectionSelect"));
 const Explora = lazy(() =>
   import("../sim-ui/organisms/bloqueBusqueda/Explora"),
 );
-const GestorNarrativasIntro = lazy(() => import("./GestorNarrativasIntro"));
-const GestorNarrativas = lazy(() => import("./GestorNarrativas"));
 const Intro = lazy(() => import("./Intro"));
 const Colecciones = lazy(() => import("./Colecciones"));
-const Crea = lazy(() => import("./Crea"));
-const Fondos = lazy(() => import("./Fondos"))
-const HomeDiccionario = lazy(() => import("./dictionary/HomeDiccionario"));
-const DiccionarioTerminos = lazy(() => import("./dictionary/TermsDiccionario"));
-const DiccionarioBusqueda = lazy(() =>
-  import("./dictionary/BusquedaDiccionario"),
-);
-const TermDiccionario = lazy(() => import("./dictionary/TermDiccionario"));
-const CardDiccionario = lazy(() => import("./dictionary/CardDiccionario"));
-const FieldDiccionario = lazy(() => import("./dictionary/FieldDiccionario"));
-// const Conoce = lazy(() => import("./Conoce"));
 const Coleccion = lazy(() => import("./Coleccion"));
-const LabVerdad = lazy(() => import("./LabVerdad"));
-const MiBiblioteca = lazy(() => import("./MiBiblioteca"));
 const Detalle = lazy(() => import("./Detalle"));
-const ComoNavegar = lazy(()=>import("./ComoNavegar"))
-const ComoNavegarInteractivo = lazy(()=>import("./ComoNavegarInteractivo"))
-const ViewMicrosite = lazy(() => import("../sim-ui/organisms/ViewMicrosite"));
+const Login = lazy(() => import("./Login"));
 
 function getSection(location) {
   const stringSplited = location.split("/");
   const section = stringSplited[1];
   return section;
 }
-
-
-function scrollToTop() {
-  scroll.scrollToTop();
-};
 
 const MuseoHome = (props) => {
   const location = useLocation();
@@ -139,6 +113,7 @@ const MuseoHome = (props) => {
           <Route path="/detalle/:id" element={<Detalle />} />
           <Route path="/" element={<Intro />} />
           <Route path="/colecciones" element={<Colecciones />} />
+          <Route path="/login" element={<Login />} />
           
           {/* <Route path="/conoce" element={<Conoce />}></Route> */}
           <Route path="/:id" element={<Coleccion />}></Route>

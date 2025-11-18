@@ -524,6 +524,8 @@ const TarjetaDocumento = (props) => {
     ArchihubService.downloadResource(props.id, (progress) => { });
   }
 
+  console.log(props)
+
   return (
     <>
       <Card
@@ -579,7 +581,7 @@ const TarjetaDocumento = (props) => {
             </>
           }
           title={
-            
+
             // <Link
             //   className={props.place === "conoce" ? `${classes.titleCard} dark` : classes.titleCard}
             //   name={props.ident}
@@ -587,10 +589,14 @@ const TarjetaDocumento = (props) => {
             //   data-cy='internal-card-link'
             //   to={`/detalle/${props.id}`}
             // >
-              <>{props.name}</>
+            <>{props.resource?.metadata?.firstLevel?.attributedtitle ? props.resource.metadata.firstLevel.attributedtitle : props.name}</>
             // </Link>
           }
-          subheader={props.simpleident ? props.simpleident : props.ident}
+          subheader={
+            <>
+              Actualizado {props.resource.createdAt ? new Date(props.resource.createdAt).toLocaleDateString() : ''}
+            </>
+          }
           titleTypographyProps={{
             variant: "h6",
             color: "primary",

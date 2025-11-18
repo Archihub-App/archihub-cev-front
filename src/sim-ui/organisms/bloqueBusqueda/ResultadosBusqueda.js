@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-// import * as SearchService from "../../../services/SearchService";
 import * as SearchService from "../../../services/ArchihubService"
 
 import Lottie from "react-lottie";
@@ -15,7 +14,6 @@ import TarjetaDocumento from "../TarjetaDocumento";
 import { makeStyles } from "@material-ui/core";
 import noresultados from "../../assets/imgs/noresultados.jpg";
 import { useTranslation } from "react-i18next";
-import { getAllChildren } from "../../../services/ResourceGroupService";
 
 const scroll = Scroll.animateScroll;
 
@@ -103,7 +101,7 @@ const ResultadosBusqueda = (props) => {
 
     if (props.temporalRange) {
       fiters_.date_filters.push({
-        field: 'metadata.firstLevel.datedescription',
+        destiny: 'metadata.firstLevel.datedescription',
         value: props.temporalRange
       })
     }
@@ -118,8 +116,11 @@ const ResultadosBusqueda = (props) => {
         ]
       })
     }
+    if (props.padre) {
+      fiters_.parents = props.padre;
+    }
     busqueda(fiters_)
-  }, [searchParams, props.temporalRange, props.dpto]);
+  }, [searchParams, props.temporalRange, props.dpto, props.padre]);
 
   const busqueda = (f) => {
     setLoading(true);
@@ -131,15 +132,23 @@ const ResultadosBusqueda = (props) => {
 
     let filters = {
       post_type: ['unidad-documental'],
+      data_transformation: 'archihub_mined',
       activeColumns: [
         {
           destiny: 'metadata.firstLevel.title'
+        },
+        {
+          destiny: 'metadata.firstLevel.attributedtitle'
+        },
+        {
+          destiny: 'parents'
         }
       ],
       ...f
     }
 
     SearchService.search(filters).then((data) => {
+      setLoading(false);
       setResultados(data.resources);
     }).catch(e => {
       setLoading(false);
@@ -196,7 +205,7 @@ const ResultadosBusqueda = (props) => {
                               .temporalCoverage
                           }
                           actualizarBusqueda={props.actualizar}
-                          resource={r._source}
+                          resource={r}
                           tipo={props.tipo}
                           view={props.view}
                           textSearchToBack={props.keyword}

@@ -10,25 +10,28 @@ import { makeStyles } from "@material-ui/core";
 
 import Subtitle from "../../../atoms/Subtitle";
 
-import ArticleTwoToneIcon from '@mui/icons-material/ArticleTwoTone';
-import MovieCreationTwoToneIcon from '@mui/icons-material/MovieCreationTwoTone';
-import CollectionsTwoToneIcon from '@mui/icons-material/CollectionsTwoTone';
-import AudiotrackTwoToneIcon from '@mui/icons-material/AudiotrackTwoTone';
+import * as SearchService from "../../../../services/ArchihubService"
+
 
 const useStyles = makeStyles((theme) => ({
   btnFiltrosSel: {
-    backgroundColor: theme.palette.primary.main + " !important",
-    color: "white !important",
+    backgroundColor: 'rgba(255,255,255,.7)',
+    margin: 2,
+    color: "#6E3092",
     '& .num': {
       color: '#fff !important',
+    },
+    '&:focus': {
+      backgroundColor: 'rgba(255,255,255,.7)',
     },
   },
   btnFiltros: {
     margin: 2,
+    backgroundColor: 'rgba(255,255,255,.2)',
+    color: 'white',
     '& .num': {
       marginLeft: 5,
       fontSize: 11,
-      backgroundColor: 'rgba(255,255,255,.9)',
       color: '#6883a5',
       padding: '1px 10px',
       borderRadius: '4px',
@@ -39,65 +42,70 @@ const useStyles = makeStyles((theme) => ({
     },
     '& svg': {
       width: 20
-    }
+    },
+    '&:focus': {
+      backgroundColor: 'rgba(255,255,255,.2)',
+    },
+    '&:hover': {
+      backgroundColor: 'rgba(255,255,255,.3)',
+    },
   },
 }));
 
 const TipoRecurso = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const [expanded, setExpanded] = useState(true);
-  
-  // function to add commas to numbers
-  const numberWithCommas = (x) => {
-    if (!x) return 0;
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+  const [filtres, setFiltres] = useState([]);
+
+  useEffect(() => {
+    busqueda({});
+  }, []);
+
+  const busqueda = (f) => {
+    let filters = {
+      post_type: ['fondo'],
+      data_transformation: 'archihub_mined',
+      activeColumns: [
+        {
+          destiny: 'metadata.firstLevel.title'
+        }
+      ],
+      ...f
+    }
+
+    SearchService.search(filters).then((data) => {
+      setFiltres(data.resources);
+    }).catch(e => {
+    })
+  };
+
+  const handleFiltroClick = (item) => {
+    if (props.padre && props.padre.id === item.id) {
+      props.setPadre(null);
+    } else {
+      props.setPadre(item);
+    }
+  };
 
   return (
-    <Accordion expanded={true}>
+    <Accordion expanded={true}
+      style={{ backgroundColor: '#b874e0', boxShadow: 'none', border: 'none', marginBottom: '10px', borderRadius: '8px', color: 'white !important' }}
+    >
       <AccordionSummary>
-        <Subtitle>Filtrar por tipo de archivo</Subtitle>
+        <Subtitle color="white">Filtrar por fondo</Subtitle>
       </AccordionSummary>
       <AccordionDetails>
         <Box>
-          {[
-            { name: "Documento", icon: <ArticleTwoToneIcon /> },
-						{ name: "Video", icon: <MovieCreationTwoToneIcon /> },
-						// { name: "Visualización", icon: <DataUsageIcon /> },
-						{ name: "Galería fotográfica", icon: <CollectionsTwoToneIcon /> },
-						{ name: "Audio", icon: <AudiotrackTwoToneIcon /> }
-          ].map((i, index) => (
-            // <Tab
-            //     key={i.name + index}
-            //     className={props.tipo === i.name ? classes.btnFiltrosSel : classes.btnFiltros}
-            //     icon={i.icon}
-            //     label={i.name}
-            //     onClick={() => {
-            //         props.tipo === i.name
-            //             ? props.setTipo(null)
-            //             : props.setTipo(i.name)
-            //     }}
-            // />
-            <>
+          <>
+            {filtres.map((item, index) => (
               <Chip
-                size="medium"
-                onClick={() => {
-                  props.tipo === i.name
-                    ? props.setTipo(null)
-                    : props.setTipo(i.name);
-                }}
-                className={classes.btnFiltros}
-                color={props.tipo === i.name ? 'primary' : ''}
-                variant={props.tipo === i.name ? 'default' : 'outlined'}
-                key={i.name + index}
-                label={<>
-                  {i.name} <span className="num">{numberWithCommas(props.valores?.find(d => d.key === i.name)?.doc_count)}</span>
-                </>}
-                icon={i.icon}
+                key={index}
+                label={item.metadata?.firstLevel?.title}
+                className={props.padre && props.padre.id === item.id ? classes.btnFiltrosSel : classes.btnFiltros}
+                onClick={() => handleFiltroClick(item)}
               />
-            </>
-          ))}
+            ))}
+          </>
         </Box>
       </AccordionDetails>
     </Accordion>

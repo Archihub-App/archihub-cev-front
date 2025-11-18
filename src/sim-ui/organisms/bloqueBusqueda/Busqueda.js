@@ -66,6 +66,7 @@ const Busqueda = (props) => {
   const [loading, setLoading] = useState(false);
   const [buckets, setBuckets] = useState(null);
   const [children, setChildren] = useState(false);
+  const [padre, setPadre] = useState(null);
 
   const setNewKeyword = (k, clear = true) => {
 
@@ -194,6 +195,8 @@ const Busqueda = (props) => {
           origin={origin !== null ? origin : 'recursos'}
           setOrigin={setNewOrigin}
           buckets={buckets}
+          padre={padre}
+          setPadre={setPadre}
         >
           {tab === 0 && (origin === null || origin === 'recursos') && (
             <>
@@ -232,6 +235,8 @@ const Busqueda = (props) => {
                   tipoActores={tipoActores}
                   setBuckets={setBuckets}
                   children={children}
+                  padre={padre}
+                  setPadre={setPadre}
                 />
               }
 

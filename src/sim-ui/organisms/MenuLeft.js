@@ -14,6 +14,8 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import { connect } from "react-redux";
 import { FlashOffTwoTone } from "@material-ui/icons";
+import * as authDuck from "../../store/ducks/auth.duck";
+import { useNavigate } from "react-router-dom";
 
 const menuJson = {
   _id: { $oid: "626013358d54b911aafc6220" },
@@ -24,7 +26,7 @@ const menuJson = {
       tab: false,
       id: "d05fbe5a-8674-4ad9-b4fa-60e529b35216",
       img: "",
-      material_icon: "ExploreTwoTone",
+      material_icon: "HomeTwoTone",
       clases: "separador",
       only: false,
       orden: 1,
@@ -33,21 +35,21 @@ const menuJson = {
       tag: "Explora todos los documentos",
       route: "explora/buscador",
       tab: false,
-      id: "d05fbe5a-8674-4ad9-b4fa-60e529b35216",
+      id: "d05fbe5a-8674-4ad9-b4fa-60e529b35217",
       img: "",
       material_icon: "ExploreTwoTone",
       only: false,
-      orden: 1,
+      orden: 2,
     },
     {
       tag: "Explora por áreas",
       route: "explora/buscador",
       tab: false,
-      id: "d05fbe5a-8674-4ad9-b4fa-60e529b35216",
+      id: "d05fbe5a-8674-4ad9-b4fa-60e529b35218",
       img: "",
-      material_icon: "ExploreTwoTone",
+      material_icon: "DashboardTwoTone",
       only: false,
-      orden: 1,
+      orden: 3,
     },
     {
       tag: "Explora por estrategias",
@@ -56,12 +58,11 @@ const menuJson = {
       id: "143a41b1-100f-4ee7-ac87-bcbc608e75a8",
       img: "",
       only: false,
-      material_icon: "ExploreTwoTone",
+      material_icon: "TimelineTwoTone",
       clases: "",
-      orden: 2,
+      orden: 4,
       children: [],
     },
-
   ],
   nombreMenu: "Menú de archivo",
   estado: 1,
@@ -169,11 +170,16 @@ const MenuLeft = (props) => {
   const [elements, setElements] = useState([]);
   const [active, setActive] = useState();
   const [user, setUser] = useState(props.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // loadItems(props.section);
     LoadItemJson();
   }, []);
+
+  useEffect(() => {
+    LoadItemJson();
+  }, [props.isAuthenticated]);
 
   useEffect(() => {
 
@@ -182,13 +188,22 @@ const MenuLeft = (props) => {
 
 
   const getName = () => {
-    if (user.name) {
+    if (props.authUser && props.authUser.name) {
+      let name = props.authUser.name.split(" ");
+      if (name.length == 2) return name[0] + " " + name[1];
+      else if (name.length >= 3) return name[0] + " " + name[2];
+      else return name[0];
+    }
+    if (props.authUser && props.authUser.username) {
+      return props.authUser.username;
+    }
+    if (user && user.name) {
       let name = user.name.split(" ");
       if (name.length == 2) return name[0] + " " + name[1];
       else if (name.length >= 3) return name[0] + " " + name[2];
       else return name[0];
     }
-    return "Username";
+    return "Usuario";
   };
 
   const activate = (id) => setActive(id);
@@ -202,8 +217,46 @@ const MenuLeft = (props) => {
     }
   };
 
+  const handleLogout = () => {
+    props.logout();
+    navigate("/");
+    if (props.handleDrawerClose) {
+      props.handleDrawerClose(false);
+    }
+  };
+
   const LoadItemJson = () => {
-    setElements(menuJson.elements);
+    let menuElements = [...menuJson.elements];
+    
+    // Add Login or Logout option based on authentication
+    if (props.isAuthenticated) {
+      menuElements.push({
+        tag: "Cerrar Sesión",
+        route: "#",
+        tab: false,
+        id: "logout-item",
+        img: "",
+        material_icon: "ExitToAppTwoTone",
+        clases: "separador",
+        only: false,
+        orden: 99,
+        onClick: handleLogout,
+      });
+    } else {
+      menuElements.push({
+        tag: "Iniciar Sesión",
+        route: "login",
+        tab: false,
+        id: "login-item",
+        img: "",
+        material_icon: "AccountCircleTwoTone",
+        clases: "separador",
+        only: false,
+        orden: 99,
+      });
+    }
+    
+    setElements(menuElements);
   };
 
   const classes = useStyles();
@@ -250,7 +303,7 @@ const MenuLeft = (props) => {
                       variant="h6"
                       component="h2"
                     >
-                      {/* {getName()} */}
+                      {props.isAuthenticated ? getName() : "Menú"}
                     </Typography>
                     {/*<IconButton
                   // style={{ marginBottom: "0px" }}
@@ -284,6 +337,15 @@ const MenuLeft = (props) => {
   );
 };
 
-export default MenuLeft;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth?.isAuthenticated || false,
+  authUser: state.auth?.user || null,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  logout: () => dispatch(authDuck.actions.logout()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MenuLeft);
 
 // export default MenuLeft;

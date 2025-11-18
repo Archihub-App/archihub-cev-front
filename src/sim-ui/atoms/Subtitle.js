@@ -14,10 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Subtitle({ children }) {
+function Subtitle({ children, color }) {
   const classes = useStyles();
   return (
-    <Typography variant="h5" className={classes.subtitle}>
+    <Typography variant="h5" className={classes.subtitle} style={{color: color ? color : 'inherit'}}>
       {children}
     </Typography>
   );
