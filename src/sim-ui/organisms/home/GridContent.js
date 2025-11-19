@@ -237,19 +237,23 @@ const GridContent = (props) => {
 
   useEffect(() => {
     busqueda({});
-
-    const resp = filter;
-
-    let sizeColumnaItems_ = Math.ceil(resp.length / numCol) + 1;
-
-    setSizeColumnaItems(sizeColumnaItems_);
-    setData(resp)
   }, []);
+
+  useEffect(() => {
+    if (filter.length > 0) {
+      const resp = filter;
+
+      let sizeColumnaItems_ = Math.ceil(resp.length / numCol) + 1;
+
+      setSizeColumnaItems(sizeColumnaItems_);
+      setData(resp)
+    }
+  }, [filter]);
 
   const busqueda = (f) => {
       let filters = {
         post_type: ['colecciones'],
-        data_transformation: 'archihub_mined',
+        data_transformation: 'archihub_col_mined',
         activeColumns: [
           {
             destiny: 'metadata.firstLevel.title'
@@ -310,7 +314,7 @@ const GridContent = (props) => {
                             <>
                               <TarjetaColeccion
                                 ilustration={
-                                  t["ilustration"] ? t["ilustration"] : false
+                                  t["file"] ? t["file"] : false
                                 }
                                 title={t.metadata.firstLevel.title}
                                 img={t.img}

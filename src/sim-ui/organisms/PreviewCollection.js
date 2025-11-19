@@ -84,7 +84,13 @@ const PreviewCollection = (props) => {
 
   const getImage = async () => {
     if (props.ilustration) {
-      if (props.ilustration.ilustrationPathSaved) {
+      // Check if ilustration is a base64 string
+      if (typeof props.ilustration === 'string' && props.ilustration.startsWith('data:image')) {
+        setImagen(props.ilustration);
+      } else if (typeof props.ilustration === 'string') {
+        // If it's a base64 string without the data URI prefix, add it
+        setImagen(`data:image/png;base64,${props.ilustration}`);
+      } else if (props.ilustration.ilustrationPathSaved) {
         let images = props.ilustration.ilustrationPathSaved.split("/");
         if (images.length) {
           let code = images[images.length - 1].split(".");

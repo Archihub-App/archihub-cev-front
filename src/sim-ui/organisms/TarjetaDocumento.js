@@ -43,6 +43,7 @@ import MovieCreationTwoToneIcon from "@mui/icons-material/MovieCreationTwoTone";
 import CollectionsTwoToneIcon from "@mui/icons-material/CollectionsTwoTone";
 import AudiotrackTwoToneIcon from "@mui/icons-material/AudiotrackTwoTone";
 import ExtensionTwoToneIcon from "@mui/icons-material/ExtensionTwoTone";
+import StorageTwoToneIcon from "@mui/icons-material/StorageTwoTone";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import DownloadIcon from '@mui/icons-material/Download';
@@ -524,8 +525,6 @@ const TarjetaDocumento = (props) => {
     ArchihubService.downloadResource(props.id, (progress) => { });
   }
 
-  console.log(props)
-
   return (
     <>
       <Card
@@ -538,11 +537,14 @@ const TarjetaDocumento = (props) => {
         <CardHeader
           className={props.place === "conoce" ? `${classes.headCard} dark` : classes.headCard}
           avatar={
-            <Link to={`/detalle/${props.id}`}>
               <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
-                <FolderTwoToneIcon />
+                {props.resource?.recordType === 'video' && <MovieCreationTwoToneIcon />}
+                {props.resource?.recordType === 'audio' && <AudiotrackTwoToneIcon />}
+                {props.resource?.recordType === 'document' && <ArticleTwoToneIcon />}
+                {props.resource?.recordType === 'image' && <CollectionsTwoToneIcon />}
+                {props.resource?.recordType === 'database' && <StorageTwoToneIcon />}
+                {!props.resource?.recordType && <FolderTwoToneIcon />}
               </Avatar>
-            </Link>
           }
           action={
             <>
@@ -594,7 +596,12 @@ const TarjetaDocumento = (props) => {
           }
           subheader={
             <>
-              Actualizado {props.resource.createdAt ? new Date(props.resource.createdAt).toLocaleDateString() : ''}
+            {props.resource.parents.reverse().map((p,i) => {
+              return (
+                <span style={{fontSize: 14}}> {p.title} |</span>
+              )
+            })}
+              <span style={{marginLeft: 15,fontSize: 14}}>Actualizado {props.resource.createdAt ? new Date(props.resource.createdAt).toLocaleDateString() : ''}</span>
             </>
           }
           titleTypographyProps={{
