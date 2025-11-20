@@ -153,6 +153,7 @@ const Busqueda = (props) => {
         setOrigin={setNewOrigin}
         setChildren={setChildren}
         children={children}
+        colIds={props.collectionId}
       />
       <Container className={classes.contenidoBuscador}>
         {/* <Box mt={2} className={classes.tabContainer}> */}
@@ -197,6 +198,7 @@ const Busqueda = (props) => {
           buckets={buckets}
           padre={padre}
           setPadre={setPadre}
+          place={props.place}
         >
           {tab === 0 && (origin === null || origin === 'recursos') && (
             <>
@@ -237,6 +239,7 @@ const Busqueda = (props) => {
                   children={children}
                   padre={padre}
                   setPadre={setPadre}
+                  colId={props.collectionId}
                 />
               }
 

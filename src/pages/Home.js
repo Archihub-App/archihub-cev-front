@@ -9,6 +9,9 @@ const AutoSectionSelect = lazy(() => import("./AutoSectionSelect"));
 const Explora = lazy(() =>
   import("../sim-ui/organisms/bloqueBusqueda/Explora"),
 );
+const ExploraColecciones = lazy(() =>
+  import("../sim-ui/organisms/bloqueBusqueda/ExploraColecciones"),
+);
 const Intro = lazy(() => import("./Intro"));
 const Colecciones = lazy(() => import("./Colecciones"));
 const Coleccion = lazy(() => import("./Coleccion"));
@@ -110,6 +113,7 @@ const MuseoHome = (props) => {
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path="/explora/buscador" element={<Explora />} />
+          <Route path="/explora/colecciones/:id" element={<ExploraColecciones />} />
           <Route path="/detalle/:id" element={<Detalle />} />
           <Route path="/" element={<Intro />} />
           <Route path="/colecciones" element={<Colecciones />} />

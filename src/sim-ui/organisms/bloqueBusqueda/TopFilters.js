@@ -4,7 +4,7 @@ import Box from "@material-ui/core/Box"
 import Container from "@material-ui/core/Container"
 import InputBase from "@material-ui/core/InputBase"
 import DataUsageIcon from "@material-ui/icons/DataUsage"
-import Typography from "@material-ui/core/Typography"
+import * as ArchihubService from "../../../services/ArchihubService";
 import Chips from "./Chips"
 import { Chip, Collapse, makeStyles } from "@material-ui/core"
 import { useTranslation } from "react-i18next"
@@ -72,6 +72,29 @@ const useStyles = makeStyles(theme => ({
 			// backdropFilter: 'blur(10px)',
 		}
 	},
+	inputBoxCol: {
+		backgroundColor: '#fc00ad',
+		padding: 0,
+		color: "white",
+		position: 'relative',
+		display: 'flex',
+		position: 'relative',
+		zIndex: 10,
+		alignItems: 'center',
+		[theme.breakpoints.down("md")]: {
+			backgroundImage: `none`,
+		},
+
+		'& .filtro': {
+			position: 'absolute',
+			width: '100%',
+			top: 0,
+			left: 0,
+			height: '100%',
+			backgroundColor: 'rgba(25,68,124,0)',
+			// backdropFilter: 'blur(10px)',
+		}
+	},
 	inputToolbar: {
 		display: "flex",
 		alignItems: "center",
@@ -118,6 +141,29 @@ const useStyles = makeStyles(theme => ({
 		justifyContent: "center",
 		width: '100%',
 		// backgroundColor: 'rgba(255,255,255,.2)',
+	},
+	gridCol: {
+		display: "flex",
+		height: '350px',
+		alignItems: "center",
+		justifyContent: "center",
+		width: '100%',
+
+		'& h2': {
+			position: 'relative',
+		},
+
+		'& h2:before': {
+			content: '""',
+			position: 'absolute',
+			top: 0,
+			left: -25,
+			right: 0,
+			bottom: 0,
+			backgroundColor: '#6E3092',
+			width: '8px',
+			height: '70%',
+		}
 	},
 	inputFilter: {
 		display: 'none',
@@ -404,7 +450,17 @@ const TopFilter = props => {
 	const [fondosMetadata, setFondosMetadata] = useState(null)
 	const [fondosView, setFondosView] = useState(false)
 	const [selectedFondo, setSelectedFondo] = useState(null)
+	const [title, setTitle] = useState('')
 
+	useEffect(() => {
+		if (props.colIds) {
+			ArchihubService.getById(props.colIds).then(response => {
+				const title_ = response.metadata.firstLevel.title
+				setTitle(title_)
+			})
+
+		}
+	}, [])
 
 	useEffect(() => {
 		let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
@@ -439,35 +495,42 @@ const TopFilter = props => {
 	return (
 		<>
 			<Box
-				className={classes.inputBox}
+				className={props.place === 'explora' ? classes.inputBox : classes.inputBoxCol}
 			>
 				<Container className={classes.inputToolbar}>
 
 					<Box
-						className={classes.grid}
+						className={props.place === 'explora' ? classes.grid : classes.gridCol}
 					>
-						<form className={classes.searchContainer} onSubmit={onSearchSubmit}>
-							<Search className={classes.SearchIcon} />
-							<InputBase
-								className={classes.searchInput}
-								placeholder={t("explora.busquedaInput")}
-								onChange={(e) => onChangeSearch(e)}
-								onBlur={(e) => onSearchBlur()}
-								onFocus={(e) => onSearchBlur(true)}
-								inputProps={{ maxLength: 140 }}
-								defaultValue={props.keyword}
-								value={keyword}
-							/>
-
-							{keyword !== '' &&
-								<CloseIcon
-									onClick={() => {
-										history('/explora/buscador')
-									}}
-								/>
+						{title !== '' &&
+							<h2 style={{ fontWeight: 'normal', fontSize: 70, color: 'white', textAlign: 'left', marginRight: 20 }}>{title}</h2>
+						}
+						<div>
+							{props.place === 'colecciones' &&
+								<h4 style={{fontSize: 25, fontStyle: 'italic', fontWeight: 'normal', textAlign: 'right'}}><b>Explora</b> el fondo documental con todos los recursos</h4>
 							}
+							<form className={classes.searchContainer} onSubmit={onSearchSubmit}>
+								<Search className={classes.SearchIcon} />
+								<InputBase
+									className={classes.searchInput}
+									placeholder={t("explora.busquedaInput")}
+									onChange={(e) => onChangeSearch(e)}
+									onBlur={(e) => onSearchBlur()}
+									onFocus={(e) => onSearchBlur(true)}
+									inputProps={{ maxLength: 140 }}
+									defaultValue={props.keyword}
+									value={keyword}
+								/>
 
-							{/* {active &&
+								{keyword !== '' &&
+									<CloseIcon
+										onClick={() => {
+											history('/explora/buscador')
+										}}
+									/>
+								}
+
+								{/* {active &&
 									<AdvancedBox
 										className={classes.searchExtraBox}
 										keyword={keyword}
@@ -475,7 +538,8 @@ const TopFilter = props => {
 								} */}
 
 
-						</form>
+							</form>
+						</div>
 
 					</Box>
 

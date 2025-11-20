@@ -50,258 +50,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import BookmarksOutlinedIcon from '@mui/icons-material/BookmarksOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    marginBottom: theme.spacing(2),
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
 
-    '&.dark': {
-      background: 'rgba(255,255,255,.1)'
-    },
-
-    '&.mobile': {
-      maxWidth: 800,
-      margin: '0 auto',
-      marginBottom: theme.spacing(2),
-      marginTop: theme.spacing(2),
-    }
-  },
-  cardActions: {
-    padding: 0,
-    paddingTop: 15,
-    paddingBottom: 15,
-
-    '&.dark': {
-      paddingBottom: 0,
-      paddingTop: 0
-    }
-  },
-  cardContent: {
-    padding: "5px !important",
-  },
-  slider: {
-    "& .MuiSlider-valueLabel": {
-      fontSize: 10,
-    },
-  },
-  expand: {
-    marginLeft: "auto",
-    transform: "rotate(0deg)",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-
-    '&.dark path': {
-      fill: 'white'
-    }
-  },
-  expandOpen: {
-    transform: "rotate(180deg)",
-    marginLeft: "auto",
-    '&.dark path': {
-      fill: 'white'
-    }
-  },
-  highlight: {
-    paddingLeft: theme.spacing(2),
-
-    "& .badge": {
-      backgroundColor: theme.palette.secondary.light,
-      color: "white",
-    },
-  },
-  headCard: {
-    backgroundColor: theme.palette.grey[100],
-    padding: 0,
-    alignItems: "flex-start",
-    flexGrow: 1,
-
-    '&.dark': {
-      background: 'rgba(255,255,255,.15)'
-    },
-
-    '&.dark .MuiCardHeader-subheader': {
-      color: 'rgba(255,255,255,.5)'
-    }
-  },
-  avatar: {
-    backgroundColor: theme.palette.primary.main,
-
-    '&.dark': {
-      backgroundColor: 'rgba(255,255,255,.1)'
-    }
-  },
-  headerActions: {
-    padding: 0,
-  },
-  titleCard: {
-    color: theme.palette.secondary.main,
-    fontSize: "1em",
-    textDecoration: "none",
-
-    '&.dark': {
-      color: 'white',
-      display: 'block',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
-      maxWidth: 400,
-      marginTop: 5,
-      textOverflow: 'ellipsis',
-    },
-    "&:hover": {
-      textDecoration: "underline",
-    },
-    [theme.breakpoints.down("md")]: {
-      fontSize: "0.8em",
-      lineHeight: "1",
-    },
-    ".mobile &": {
-      fontSize: "0.8em",
-      lineHeight: "1",
-    },
-  },
-  btnCard: {
-    textTransform: "none",
-    marginLeft: theme.spacing(1),
-    borderRadius: 50,
-    paddingLeft: theme.spacing(2.5),
-    paddingRight: theme.spacing(2.5),
-
-    '&.dark': {
-      "& path": {
-        fill: "#bfcad9",
-      },
-
-      '&.active': {
-        "& path": {
-          fill: theme.palette.primary.dark,
-        },
-      }
-    },
-
-    "&.active": {
-      backgroundColor: "#bfcad9",
-      color: theme.palette.primary.dark,
-
-      "& path": {
-        fill: theme.palette.primary.dark,
-      },
-    },
-  },
-  btnCardInfo: {
-    textTransform: "none",
-    borderRadius: 50,
-    marginRight: theme.spacing(2),
-
-    '&.dark': {
-      borderColor: '#6E3092',
-
-      "& path": {
-        fill: '#6E3092',
-      },
-
-      '&.active': {
-        "& path": {
-          fill: 'white',
-        },
-      }
-    },
-
-    "&.active": {
-      backgroundColor: "#6E3092",
-      color: 'white',
-
-      "& path": {
-        fill: 'white',
-      },
-    },
-    [theme.breakpoints.down("md")]: {
-      textIndent: "-999999999px",
-      "& .MuiButton-startIcon": {
-        marginRight: 0,
-      },
-    },
-    ".mobile &": {
-      textIndent: "-999999999px",
-      "& .MuiButton-startIcon": {
-        marginRight: 0,
-      },
-    },
-  },
-  btnLinkCard: {
-    "& span": {
-      margin: 0,
-    },
-  },
-  info: {
-    display: "flex",
-    justifyContent: "center",
-    [theme.breakpoints.down("md")]: {
-      display: "block",
-    },
-    ".mobile &": {
-      display: "block",
-    },
-  },
-  insideInfo: {
-    display: "block",
-    marginRight: theme.spacing(2),
-  },
-  textoInfo: {
-    width: "calc(100% - 250px)",
-    maxWidth: 500,
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-    ".mobile &": {
-      width: "100%",
-    },
-  },
-  mapaInfo: {
-    width: 250,
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-    },
-    ".mobile &": {
-      width: "100%",
-    },
-  },
-  mobileHide: {
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-    ".mobile &": {
-      display: "none",
-    },
-  },
-  btnTipoLabel: {
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
-    ".mobile &": {
-      display: "none",
-    },
-  },
-  btnTipoLabelNum: {
-    marginLeft: theme.spacing(1),
-    border: "1px solid #bfcad9",
-    width: 20,
-    height: 20,
-    lineHeight: "20px",
-    borderRadius: 50,
-    fontSize: "10px",
-    background: "rgba(255,255,255,.8)",
-    [theme.breakpoints.down("md")]: {
-      marginLeft: 0,
-    },
-    ".mobile &": {
-      marginLeft: 0,
-    },
-  },
-}));
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -319,7 +68,6 @@ function navigateToHash(hash) {
 
 const TarjetaDocumento = (props) => {
   const location = useLocation();
-  const classes = useStyles();
   const [t, i18n] = useTranslation("common");
   const [expanded, setExpanded] = useState(false);
   const [open, setOpen] = useState(false);
@@ -327,6 +75,262 @@ const TarjetaDocumento = (props) => {
   const [tab, setTab] = useState("info");
   const [recordsType, setRecordsType] = useState({});
   const view = props.view ? props.view : "rows";
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      marginBottom: theme.spacing(2),
+      height: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+
+      '&.dark': {
+        background: 'rgba(255,255,255,.1)'
+      },
+
+      '&.mobile': {
+        maxWidth: 800,
+        margin: '0 auto',
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(2),
+      }
+    },
+    cardActions: {
+      padding: 0,
+      paddingTop: 15,
+      paddingBottom: 15,
+
+      '&.dark': {
+        paddingBottom: 0,
+        paddingTop: 0
+      }
+    },
+    cardContent: {
+      padding: "5px !important",
+    },
+    slider: {
+      "& .MuiSlider-valueLabel": {
+        fontSize: 10,
+      },
+    },
+    expand: {
+      marginLeft: "auto",
+      transform: "rotate(0deg)",
+      transition: theme.transitions.create("transform", {
+        duration: theme.transitions.duration.shortest,
+      }),
+
+      '&.dark path': {
+        fill: 'white'
+      }
+    },
+    expandOpen: {
+      transform: "rotate(180deg)",
+      marginLeft: "auto",
+      '&.dark path': {
+        fill: 'white'
+      }
+    },
+    highlight: {
+      paddingLeft: theme.spacing(2),
+
+      "& .badge": {
+        backgroundColor: theme.palette.secondary.light,
+        color: "white",
+      },
+    },
+    headCard: {
+      backgroundColor: theme.palette.grey[100],
+      padding: 0,
+      alignItems: "flex-start",
+      flexGrow: 1,
+
+      '&.dark': {
+        background: 'rgba(255,255,255,.15)'
+      },
+
+      '&.dark .MuiCardHeader-subheader': {
+        color: 'rgba(255,255,255,.5)'
+      }
+    },
+    avatar: {
+      backgroundColor: props.place === 'explora' ? theme.palette.primary.main : '#fc00ad',
+
+      '&.dark': {
+        backgroundColor: 'rgba(255,255,255,.1)'
+      }
+    },
+    headerActions: {
+      padding: 0,
+    },
+    titleCard: {
+      color: props.place === 'explora' ? theme.palette.primary.main : '#fc00ad',
+      fontSize: "1em",
+      textDecoration: "none",
+
+      '&.dark': {
+        color: 'white',
+        display: 'block',
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        maxWidth: 400,
+        marginTop: 5,
+        textOverflow: 'ellipsis',
+      },
+      "&:hover": {
+        textDecoration: "underline",
+      },
+      [theme.breakpoints.down("md")]: {
+        fontSize: "0.8em",
+        lineHeight: "1",
+      },
+      ".mobile &": {
+        fontSize: "0.8em",
+        lineHeight: "1",
+      },
+    },
+    btnCard: {
+      textTransform: "none",
+      marginLeft: theme.spacing(1),
+      borderRadius: 50,
+      paddingLeft: theme.spacing(2.5),
+      paddingRight: theme.spacing(2.5),
+
+      '&.dark': {
+        "& path": {
+          fill: "#bfcad9",
+        },
+
+        '&.active': {
+          "& path": {
+            fill: theme.palette.primary.dark,
+          },
+        }
+      },
+
+      "&.active": {
+        backgroundColor: "#bfcad9",
+        color: theme.palette.primary.dark,
+
+        "& path": {
+          fill: theme.palette.primary.dark,
+        },
+      },
+    },
+    btnCardInfo: {
+      textTransform: "none",
+      borderRadius: 50,
+      marginRight: theme.spacing(2),
+
+      '&.dark': {
+        borderColor: props.place === 'explora' ? '#6E3092' : '#6E3092',
+
+        "& path": {
+          fill: props.place === 'explora' ? '#6E3092' : '#6E3092',
+        },
+
+        '&.active': {
+          "& path": {
+            fill: 'white',
+          },
+        }
+      },
+
+      "&.active": {
+        backgroundColor: "#6E3092",
+        color: 'white',
+
+        "& path": {
+          fill: 'white',
+        },
+      },
+      [theme.breakpoints.down("md")]: {
+        textIndent: "-999999999px",
+        "& .MuiButton-startIcon": {
+          marginRight: 0,
+        },
+      },
+      ".mobile &": {
+        textIndent: "-999999999px",
+        "& .MuiButton-startIcon": {
+          marginRight: 0,
+        },
+      },
+    },
+    btnLinkCard: {
+      "& span": {
+        margin: 0,
+      },
+    },
+    info: {
+      display: "flex",
+      justifyContent: "center",
+      [theme.breakpoints.down("md")]: {
+        display: "block",
+      },
+      ".mobile &": {
+        display: "block",
+      },
+    },
+    insideInfo: {
+      display: "block",
+      marginRight: theme.spacing(2),
+    },
+    textoInfo: {
+      width: "calc(100% - 250px)",
+      maxWidth: 500,
+      [theme.breakpoints.down("md")]: {
+        width: "100%",
+      },
+      ".mobile &": {
+        width: "100%",
+      },
+    },
+    mapaInfo: {
+      width: 250,
+      [theme.breakpoints.down("md")]: {
+        width: "100%",
+      },
+      ".mobile &": {
+        width: "100%",
+      },
+    },
+    mobileHide: {
+      [theme.breakpoints.down("md")]: {
+        display: "none",
+      },
+      ".mobile &": {
+        display: "none",
+      },
+    },
+    btnTipoLabel: {
+      [theme.breakpoints.down("md")]: {
+        display: "none",
+      },
+      ".mobile &": {
+        display: "none",
+      },
+    },
+    btnTipoLabelNum: {
+      marginLeft: theme.spacing(1),
+      border: "1px solid #bfcad9",
+      width: 20,
+      height: 20,
+      lineHeight: "20px",
+      borderRadius: 50,
+      fontSize: "10px",
+      background: "rgba(255,255,255,.8)",
+      [theme.breakpoints.down("md")]: {
+        marginLeft: 0,
+      },
+      ".mobile &": {
+        marginLeft: 0,
+      },
+    },
+  }));
+
+  const classes = useStyles();
+
 
   let piezaType = props.pieza ? props.pieza.type : "";
   let piezaRecords = props.pieza ? props.pieza.records : undefined;
@@ -537,14 +541,14 @@ const TarjetaDocumento = (props) => {
         <CardHeader
           className={props.place === "conoce" ? `${classes.headCard} dark` : classes.headCard}
           avatar={
-              <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
-                {props.resource?.recordType === 'video' && <MovieCreationTwoToneIcon />}
-                {props.resource?.recordType === 'audio' && <AudiotrackTwoToneIcon />}
-                {props.resource?.recordType === 'document' && <ArticleTwoToneIcon />}
-                {props.resource?.recordType === 'image' && <CollectionsTwoToneIcon />}
-                {props.resource?.recordType === 'database' && <StorageTwoToneIcon />}
-                {!props.resource?.recordType && <FolderTwoToneIcon />}
-              </Avatar>
+            <Avatar className={props.place === "conoce" ? `${classes.avatar} dark` : classes.avatar} variant="square">
+              {props.resource?.recordType === 'video' && <MovieCreationTwoToneIcon />}
+              {props.resource?.recordType === 'audio' && <AudiotrackTwoToneIcon />}
+              {props.resource?.recordType === 'document' && <ArticleTwoToneIcon />}
+              {props.resource?.recordType === 'image' && <CollectionsTwoToneIcon />}
+              {props.resource?.recordType === 'database' && <StorageTwoToneIcon />}
+              {!props.resource?.recordType && <FolderTwoToneIcon />}
+            </Avatar>
           }
           action={
             <>
@@ -596,12 +600,12 @@ const TarjetaDocumento = (props) => {
           }
           subheader={
             <>
-            {props.resource.parents.reverse().map((p,i) => {
-              return (
-                <span style={{fontSize: 14}}> {p.title} |</span>
-              )
-            })}
-              <span style={{marginLeft: 15,fontSize: 14}}>Actualizado {props.resource.createdAt ? new Date(props.resource.createdAt).toLocaleDateString() : ''}</span>
+              {props.resource.parents.reverse().map((p, i) => {
+                return (
+                  <span style={{ fontSize: 14 }}> {p.title} |</span>
+                )
+              })}
+              <span style={{ marginLeft: 15, fontSize: 14 }}>Actualizado {props.resource.createdAt ? new Date(props.resource.createdAt).toLocaleDateString() : ''}</span>
             </>
           }
           titleTypographyProps={{
@@ -621,7 +625,7 @@ const TarjetaDocumento = (props) => {
               marginLeft: 20,
               color: '#333',
               borderRadius: 50,
-              borderColor: '#6E3092',
+              borderColor: props.place === 'explora' ? '#6E3092' : '#6E3092',
             }}
             size="small"
             startIcon={<BookmarksOutlinedIcon sx={{
@@ -640,7 +644,7 @@ const TarjetaDocumento = (props) => {
               marginLeft: 10,
               color: '#333',
               borderRadius: 50,
-              borderColor: '#6E3092',
+              borderColor: props.place === 'explora' ? '#6E3092' : '#6E3092',
             }}
             size="small"
             startIcon={<RemoveRedEyeOutlinedIcon sx={{
@@ -658,7 +662,7 @@ const TarjetaDocumento = (props) => {
               marginLeft: 10,
               color: '#333',
               borderRadius: 50,
-              borderColor: '#6E3092',
+              borderColor: props.place === 'explora' ? '#6E3092' : '#6E3092',
             }}
             size="small"
             startIcon={<DownloadIcon sx={{

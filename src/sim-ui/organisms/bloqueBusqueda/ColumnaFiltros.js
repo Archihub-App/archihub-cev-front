@@ -92,7 +92,9 @@ const ColumnaFiltros = (props) => {
 
             {props.origin === 'recursos' &&
               <>
-                <TipoRecurso padre={props.padre} setPadre={props.setPadre} />
+                {props.place === 'explora' &&
+                  <TipoRecurso padre={props.padre} setPadre={props.setPadre} />
+                }
                 <Ubicacion setDpto={props.setDpto} dpto={props.dpto} />
 
                 <Temporal

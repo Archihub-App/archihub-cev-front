@@ -62,7 +62,7 @@ const TarjetaColeccion = (props) => {
             home={true}
             ilustration={props.ilustration}
             title={props.title}
-            slug={props.slug}
+            id={props.id}
             especial={props.especial}
           />
         </div>
@@ -293,6 +293,8 @@ const GridContent = (props) => {
       numCol = 1;
   }
 
+  console.log("DATA COLECCIONES: ", data);
+
   return (
     <>
       {data && sizeColumnaItems && (
@@ -321,7 +323,7 @@ const GridContent = (props) => {
                                 enfoque={t.enfoque}
                                 i={i}
                                 y={y}
-                                slug={t["slug"] ? t["slug"] : false}
+                                id={t["id"] ? t["id"] : false}
                                 especial={t.especial}
                               />
                             </>

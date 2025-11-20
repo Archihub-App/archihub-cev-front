@@ -92,7 +92,7 @@ const ResultadosBusqueda = (props) => {
 
   useEffect(() => {
     let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
-
+    console.log('keyword en resultadosBusqueda:', props);
     let fiters_ = {
       keyword: k,
       date_filters: [],
@@ -118,6 +118,9 @@ const ResultadosBusqueda = (props) => {
     }
     if (props.padre) {
       fiters_.parents = props.padre;
+    }
+    if (props.colId) {
+      fiters_.parents = {id: props.colId};
     }
     busqueda(fiters_)
   }, [searchParams, props.temporalRange, props.dpto, props.padre]);

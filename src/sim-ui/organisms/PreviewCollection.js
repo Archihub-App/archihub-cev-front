@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     minWidth: "10px",
     maxWidth: "10px",
     height: "5vh",
-    backgroundColor: "#fff",
+    backgroundColor: "#fc00ad",
     margin: "-8px",
     padding: "0px",
 
@@ -117,8 +117,8 @@ const PreviewCollection = (props) => {
   return (
     <>
       <div className={`${props.home ? classes.itemColHome : classes.itemCol} ${props.especial ? 'especial' : ''}`}>
-        {props.slug ? (
-          <a className={`${classes.link}`} href={props.especial ? `${props.slug}` : `${props.slug}`}>
+        {props.id ? (
+          <a className={`${classes.link}`} href={`/explora/colecciones/${props.id}`}>
             <Box className={classes.itemColTit}>
               <Typography variant="h6">{props.title}</Typography>
               <div className={classes.type}></div>
@@ -126,13 +126,13 @@ const PreviewCollection = (props) => {
             <img src={imagen} />
           </a>
         ) : (
-          <>
+          <a className={`${classes.link}`} href={`/colecciones/${props.id}`}>
             <Box className={classes.itemColTit}>
               <Typography variant="h6">{props.title}</Typography>
               <div className={classes.type}></div>
             </Box>
             <img src={imagen} />
-          </>
+          </a>
         )}
 
       </div>
