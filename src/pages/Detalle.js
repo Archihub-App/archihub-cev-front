@@ -41,7 +41,6 @@ const Detalle = (props) => {
   const loadById = async () => {
     try {
       const response = await ArchihubService.getById(id);
-      console.log("Resource data:", response);
       setData(response);
     } catch (error) {
       console.error("Error fetching resource by ID:", error);

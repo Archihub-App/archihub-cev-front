@@ -595,7 +595,7 @@ const TarjetaDocumento = (props) => {
             //   data-cy='internal-card-link'
             //   to={`/detalle/${props.id}`}
             // >
-            <>{props.resource?.metadata?.firstLevel?.attributedtitle ? props.resource.metadata.firstLevel.attributedtitle : props.name}</>
+            <>{props.resource?.metadata?.firstLevel?.attributedtitle ? props.resource.metadata.firstLevel.attributedtitle : props.name.split('.')[0]}</>
             // </Link>
           }
           subheader={
