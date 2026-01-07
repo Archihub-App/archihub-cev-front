@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[9263],{89263:(s,a,e)=>{s.exports=e.p+"static/media/fondos.6539b400df3534a7e16a.svg"}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[1317],{21317:(s,a,e)=>{s.exports=e.p+"static/media/tesauro.885751537a608c307f01.svg"}}]);

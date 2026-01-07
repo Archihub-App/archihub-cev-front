@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[7621],{37621:(a,e,c)=>{a.exports=c.p+"static/media/como-navegar.3a07b19b80ec2af9ac3c.svg"}}]);

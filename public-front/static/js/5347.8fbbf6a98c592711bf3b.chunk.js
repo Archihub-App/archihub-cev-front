@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[5347],{5347:(e,p,s)=>{e.exports=s.p+"static/media/voces-min.3229c7a239700c5dd8e0.png"}}]);

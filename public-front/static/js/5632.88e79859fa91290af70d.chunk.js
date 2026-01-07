@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[5632],{25632:(e,s,a)=>{e.exports=a.p+"static/media/iconMenu.623365ac863e252d48db.svg"}}]);

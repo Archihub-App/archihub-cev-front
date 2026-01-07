@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[880],{90880:(a,e,s)=>{a.exports=s.p+"static/media/transmedia.4d8a4caea7bbffe252bc.svg"}}]);

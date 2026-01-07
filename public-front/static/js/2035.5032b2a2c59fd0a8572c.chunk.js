@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[2035],{62035:(e,f,s)=>{e.exports=s.p+"static/media/informe_final.339409f06e10e6375fff.svg"}}]);
