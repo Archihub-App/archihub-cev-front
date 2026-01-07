@@ -92,7 +92,6 @@ const ResultadosBusqueda = (props) => {
 
   useEffect(() => {
     let k = searchParams.get("keyword") ? searchParams.get("keyword") : "";
-    console.log('keyword en resultadosBusqueda:', props);
     let fiters_ = {
       keyword: k,
       date_filters: [],
@@ -122,8 +121,9 @@ const ResultadosBusqueda = (props) => {
     if (props.colId) {
       fiters_.parents = {id: props.colId};
     }
+    fiters_.page = props.page;
     busqueda(fiters_)
-  }, [searchParams, props.temporalRange, props.dpto, props.padre]);
+  }, [searchParams, props.temporalRange, props.dpto, props.padre, props.page]);
 
   const busqueda = (f) => {
     setLoading(true);
@@ -153,6 +153,7 @@ const ResultadosBusqueda = (props) => {
     SearchService.search(filters).then((data) => {
       setLoading(false);
       setResultados(data.resources);
+      setTotal(data.total || 0);
     }).catch(e => {
       setLoading(false);
     })

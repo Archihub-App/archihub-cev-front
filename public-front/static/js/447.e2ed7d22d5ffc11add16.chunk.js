@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[447],{50447:(e,s,a)=>{e.exports=a.p+"static/media/buscador.067b4e4e7644e8419cf2.svg"}}]);

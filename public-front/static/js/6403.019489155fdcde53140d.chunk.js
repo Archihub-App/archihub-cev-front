@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[6403],{96403:(e,c,s)=>{e.exports=s.p+"static/media/colecciones.bb71c0eeccf278570144.svg"}}]);

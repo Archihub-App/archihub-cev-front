@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[4176],{74176:(e,s,h)=>{h.r(s),h.d(s,{default:()=>c});var a=h(70579);const c=()=>(0,a.jsx)("svg",{class:"MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-uqopch",focusable:"false","aria-hidden":"true",viewBox:"0 0 24 24","data-testid":"AccountTreeIcon",children:(0,a.jsx)("path",{d:"M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"})})}}]);
+//# sourceMappingURL=4176.cc4d83068a78d153063c.chunk.js.map

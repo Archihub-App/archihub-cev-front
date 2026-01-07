@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[7044],{54267:(e,a,s)=>{s.r(a),s.d(a,{default:()=>r});var p=s(85516),c=s(67502),l=s(70579);const r=e=>(0,l.jsx)(p.A,{children:(0,l.jsx)(c.A,{place:"explora"})})}}]);
+//# sourceMappingURL=7044.9498910166807c0e1a7f.chunk.js.map

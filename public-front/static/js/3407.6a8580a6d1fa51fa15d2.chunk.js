@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[3407],{2976:(c,e,s)=>{s.r(e),s.d(e,{default:()=>o});var l=s(73216),n=s(85516),a=s(67502),t=s(70579);const o=c=>{const{id:e}=(0,l.g)();return(0,t.jsx)(n.A,{children:(0,t.jsx)(a.A,{place:"colecciones",collectionId:e})})}}}]);
+//# sourceMappingURL=3407.6a8580a6d1fa51fa15d2.chunk.js.map

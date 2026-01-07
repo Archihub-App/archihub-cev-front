@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpwa=self.webpackChunkpwa||[]).push([[2899],{35280:(e,p,s)=>{e.exports=s.p+"static/media/C21-min.c9ebd684e320932d5790.png"}}]);
