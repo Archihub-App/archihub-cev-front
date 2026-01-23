@@ -142,7 +142,7 @@ const NewHeader = (props) => {
               fontSize: '1.2em',
               color: '#222',
             }}>
-              Mineducación <span style={{
+              RIVES <span style={{
                 color: '#6E3092',
               }}>| Repositorio de Información VES</span>
             </Typography>

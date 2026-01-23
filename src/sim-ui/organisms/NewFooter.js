@@ -1,10 +1,8 @@
 import React from "react";
 import { Box, makeStyles } from "@material-ui/core";
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import img1 from "../assets/imgs/sistema_integral.png";
-import img2 from "../assets/imgs/logo_CDV.svg";
-import img3 from "../assets/imgs/jep.svg";
-import img4 from "../assets/imgs/ubpd.svg";
+import img1 from "../assets/imgs/Logo_MEN.png";
+import img2 from "../assets/imgs/Logo_govco.png";
 
 const useStyles = makeStyles((theme) => ({
   logo: {
@@ -76,10 +74,10 @@ const NewFooter = (props) => {
     <>
       <div>
         <div className={classes.footerContainer}>
-          {/* <img className={classes.logo} src={img1} alt="logo1" />
+          <img className={classes.logo} src={img1} alt="logo1" />
           <div className={classes.separator}></div>
           <img className={classes.logo2} src={img2} alt="logo1" />
-          <div className={classes.separator}></div>
+          {/*<div className={classes.separator}></div>
           <img className={classes.logo3} src={img3} alt="logo1" />
           <div className={classes.separator}></div>
           <img className={classes.logo4} src={img4} alt="logo1" /> */}

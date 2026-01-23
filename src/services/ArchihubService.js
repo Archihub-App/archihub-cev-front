@@ -5,12 +5,17 @@ import { getStorage } from "./utils";
 function getAuthHeaders() {
   const headers = new Headers({ "Content-Type": "application/json" });
   const token = getStorage("auth_token");
-  
+
   if (token) {
     headers.append("Authorization", `Bearer ${token}`);
   }
-  
+
   return headers;
+}
+
+function hasAuth() {
+  const token = getStorage("auth_token");
+  return !!token;
 }
 
 export function search(filters = {}) {
@@ -24,7 +29,13 @@ export function search(filters = {}) {
     body: JSON.stringify(filters),
   };
 
-  const path = "/search/public";
+  let path = "";
+
+  if (!hasAuth()) {
+    path = "/search/public";
+  } else {
+    path = "/search";
+  }
 
   return fetch(URL_API + path, miInit).then(function (response) {
     if (response.status !== 200) {
@@ -41,7 +52,7 @@ export function downloadResource(id, onProgress) {
     xhr.open('POST', URL_API + "/resources/public/download_records", true);
     xhr.responseType = 'blob';
     xhr.setRequestHeader('Content-Type', 'application/json');
-    
+
     // Add JWT token if available
     const token = getStorage("auth_token");
     if (token) {
@@ -99,7 +110,7 @@ export function downloadRecord(id, onProgress) {
     xhr.open('POST', URL_API + "/records/public/download", true);
     xhr.responseType = 'blob';
     xhr.setRequestHeader('Content-Type', 'application/json');
-    
+
     // Add JWT token if available
     const token = getStorage("auth_token");
     if (token) {
@@ -196,18 +207,18 @@ export function getRecordById(id) {
 }
 
 export const login = async (username, password) => {
-    return fetch(URL_API + "/auth/login", {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-    }).then(response => {
-        if (![200].includes(response.status)) {
-            return Promise.reject(response);
-        }
-        else {
-            return response.json();
-        }
-    })
+  return fetch(URL_API + "/auth/login", {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ username, password })
+  }).then(response => {
+    if (![200].includes(response.status)) {
+      return Promise.reject(response);
+    }
+    else {
+      return response.json();
+    }
+  })
 }

@@ -56,6 +56,7 @@ const TipoRecurso = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [filtres, setFiltres] = useState([]);
+  const [subFiltres, setSubFiltres] = useState([]);
 
   useEffect(() => {
     busqueda({});
@@ -79,11 +80,35 @@ const TipoRecurso = (props) => {
     })
   };
 
-  const handleFiltroClick = (item) => {
+  const busquedaSub = (f) => {
+    let filters = {
+      post_type: ['serie'],
+      data_transformation: 'archihub_mined',
+      activeColumns: [
+        {
+          destiny: 'metadata.firstLevel.title'
+        }
+      ],
+      ...f
+    }
+
+    SearchService.search(filters).then((data) => {
+      setSubFiltres(data.resources);
+    }).catch(e => {
+    })
+  }
+
+  const handleFiltroClick = (item, isSub = false) => {
     if (props.padre && props.padre.id === item.id) {
       props.setPadre(null);
     } else {
       props.setPadre(item);
+    }
+
+    if (!isSub) {
+      busquedaSub({
+        'parents.id': item.id
+      });
     }
   };
 
@@ -103,6 +128,15 @@ const TipoRecurso = (props) => {
                 label={item.metadata?.firstLevel?.title}
                 className={props.padre && props.padre.id === item.id ? classes.btnFiltrosSel : classes.btnFiltros}
                 onClick={() => handleFiltroClick(item)}
+              />
+            ))}
+
+            {subFiltres.map((item, index) => (
+              <Chip
+                key={index}
+                label={item.metadata?.firstLevel?.title}
+                className={props.padre && props.padre.id === item.id ? classes.btnFiltrosSel : classes.btnFiltros}
+                onClick={() => handleFiltroClick(item, true)}
               />
             ))}
           </>
