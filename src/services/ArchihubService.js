@@ -29,13 +29,7 @@ export function search(filters = {}) {
     body: JSON.stringify(filters),
   };
 
-  let path = "";
-
-  if (!hasAuth()) {
-    path = "/search/public";
-  } else {
-    path = "/search";
-  }
+  const path = hasAuth() ? "/search" : "/search/public";
 
   return fetch(URL_API + path, miInit).then(function (response) {
     if (response.status !== 200) {
@@ -174,8 +168,8 @@ export function getById(id) {
     cache: "default",
   };
 
-  const path = "/resources/public/" + id;
-
+  const path = hasAuth() ? "/resources/" + id : "/resources/public/" + id;
+  
   return fetch(URL_API + path, miInit).then(function (response) {
     if (response.status !== 200) {
       return Promise.reject(response.status);

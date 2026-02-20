@@ -152,8 +152,10 @@ const ResultadosBusqueda = (props) => {
 
     SearchService.search(filters).then((data) => {
       setLoading(false);
+      console.log("Resultados de búsqueda:", data);
       setResultados(data.resources);
       setTotal(data.total || 0);
+
     }).catch(e => {
       setLoading(false);
     })
@@ -176,6 +178,7 @@ const ResultadosBusqueda = (props) => {
                 />
               </Box> */}
               <Grid container spacing={3} mt={4}>
+                {JSON.stringify(resultados)}
                 {resultados.map((r, i) => {
                   if (r) {
                     return (
