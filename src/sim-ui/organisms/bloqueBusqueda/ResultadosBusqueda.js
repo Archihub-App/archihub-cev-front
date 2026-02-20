@@ -177,7 +177,6 @@ const ResultadosBusqueda = (props) => {
                 />
               </Box> */}
               <Grid container spacing={3} mt={4}>
-                {JSON.stringify(resultados)}
                 {resultados.map((r, i) => {
                   if (r) {
                     return (
