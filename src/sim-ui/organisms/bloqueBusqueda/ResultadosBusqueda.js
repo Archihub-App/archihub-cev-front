@@ -86,7 +86,7 @@ const ResultadosBusqueda = (props) => {
   const [t, i18n] = useTranslation("common");
   const view = props.view ? props.view : "rows";
 
-  const size = 10;
+  const size = 20;
   let count = Math.floor(total / size);
   if (total % size > 0) count = count + 1;
 
@@ -152,7 +152,6 @@ const ResultadosBusqueda = (props) => {
 
     SearchService.search(filters).then((data) => {
       setLoading(false);
-      console.log("Resultados de búsqueda:", data);
       setResultados(data.resources);
       setTotal(data.total || 0);
 
