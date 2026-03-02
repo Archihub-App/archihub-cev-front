@@ -121,7 +121,7 @@ const ResultadosBusqueda = (props) => {
     if (props.colId) {
       fiters_.parents = {id: props.colId};
     }
-    fiters_.page = props.page;
+    fiters_.page = props.page - 1;
     busqueda(fiters_)
   }, [searchParams, props.temporalRange, props.dpto, props.padre, props.page]);
 
