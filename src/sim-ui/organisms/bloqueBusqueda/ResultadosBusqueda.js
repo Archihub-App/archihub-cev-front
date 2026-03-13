@@ -100,8 +100,8 @@ const ResultadosBusqueda = (props) => {
 
     if (props.temporalRange) {
       fiters_.date_filters.push({
-        destiny: 'metadata.firstLevel.datedescription',
-        value: props.temporalRange
+        destiny: 'metadata.firstLevel.temporalCoverage.start',
+        range: props.temporalRange.split('-').map((value) => parseInt(value.trim(), 10))
       })
     }
     if (props.dpto) {

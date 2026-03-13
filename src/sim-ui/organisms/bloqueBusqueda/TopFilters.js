@@ -470,10 +470,18 @@ const TopFilter = props => {
 	const onSearchSubmit = e => {
 		e.preventDefault()
 		// go to search page with keyword as param
-		if (keyword.trim() === '') {
-			history('/explora/buscador')
-		} else {
-			history(`/explora/buscador?keyword=${keyword}`)
+		if (props.place === 'explora') {
+			if (keyword.trim() === '') {
+				history('/explora/buscador')
+			} else {
+				history(`/explora/buscador?keyword=${keyword}`)
+			}
+		} else if (props.place === 'colecciones') {
+			if (keyword.trim() === '') {
+				history(`/explora/colecciones/${props.colIds}`)
+			} else {
+				history(`/explora/colecciones/${props.colIds}?keyword=${keyword}`)
+			}
 		}
 	}
 
@@ -507,7 +515,7 @@ const TopFilter = props => {
 						}
 						<div>
 							{props.place === 'colecciones' &&
-								<h4 style={{fontSize: 25, fontStyle: 'italic', fontWeight: 'normal', textAlign: 'right'}}><b>Explora</b> el fondo documental con todos los recursos</h4>
+								<h4 style={{ fontSize: 25, fontStyle: 'italic', fontWeight: 'normal', textAlign: 'right' }}><b>Explora</b> el fondo documental con todos los recursos</h4>
 							}
 							<form className={classes.searchContainer} onSubmit={onSearchSubmit}>
 								<Search className={classes.SearchIcon} />
@@ -525,7 +533,11 @@ const TopFilter = props => {
 								{keyword !== '' &&
 									<CloseIcon
 										onClick={() => {
-											history('/explora/buscador')
+											if (props.place === 'explora') {
+												history('/explora/buscador')
+											} else if (props.place === 'colecciones') {
+												history(`/explora/colecciones/${props.colIds}`)
+											}
 										}}
 									/>
 								}
