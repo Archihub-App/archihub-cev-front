@@ -254,30 +254,12 @@ const DetailResource = (props) => {
 
     let i = 0;
 
-    let list = _.map(flattenKeys(aux_resource), (v, k) => {
-      let name = k
-        .split(".")
-        .filter((item) => isNaN(item))
-        .join(".");
-      return {
-        id: ++i,
-        name: METADA_INFO[name] ? METADA_INFO[name] : null,
-        description: v !== null && isNaN(v) ? v.replace(/[[]{}]/g, "") : v,
-        search: name.split(".").pop(),
-      };
-    });
-
-    list = Object.values(
-      list.reduce((item, { id, name, description, search }) => {
-        item[name] = item[name] || { id, name, description: "", search: "" };
-        item[name].description = item[name].description
-          ? item[name].description + "\r\n" + description
-          : description;
-        item[name].search = search;
-        return item;
-      }, {}),
-    ).filter((item) => item.name !== null);
-    return list;
+    return aux_resource['fields']
+      .map(field => ({
+        name: field.label,
+        description: field.value,
+        type: field.type 
+      }));
   };
 
   const flattenKeys = (obj, path = []) =>
@@ -416,13 +398,6 @@ const DetailResource = (props) => {
                 >
                   <MetadataCard fields={fieldsRecord} />
                 </TabPanel>
-                {/* <TabPanel
-                className={`${classes.tabPanel} ${classes.scrollModify}`}
-                value={value}
-                index={3}
-              >
-                <SimpleLocationResource resource={props.resource} />
-              </TabPanel> */}
               </div>
               <br />
 

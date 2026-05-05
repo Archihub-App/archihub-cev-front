@@ -34,14 +34,23 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({}));
 
+const formatValue = (field) => {
+  if (field.type === 'simple-date' && field.value) {
+    return new Date(field.value).toLocaleDateString('es-CO', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+  return field.value;
+};
+
 function MetadataCard(props) {
   const classes = useStyles();
   const [fields, setFields] = React.useState(props.fields | null);
   useEffect(() => {
     setFields(props.fields);
   }, [props.fields]);
-
-  console.log("Metadata fields:",props.fields);
 
   return (
     <TableContainer>

@@ -5,7 +5,8 @@
  */
 // Backend server
 // export const URL_API = `https://mined.bit-sol.com.co/api`;
-export const URL_API = `https://archihubcert.mineducacion.gov.co/api`;
+// export const URL_API = `https://archihubcert.mineducacion.gov.co/api`;
+export const URL_API = `http://localhost:5000`;
 
 /**
  * RESULTS
