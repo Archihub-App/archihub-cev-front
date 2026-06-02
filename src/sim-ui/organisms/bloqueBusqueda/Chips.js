@@ -89,7 +89,19 @@ const Chips = (props) => {
           />
         )}
 
-        {props.dpto !== null && (
+        {props.dpto !== null && Array.isArray(props.dpto) && props.dpto.map((d, i) => (
+          <Chip
+            key={i}
+            className={classes.chip}
+            size="small"
+            label={d.nombre}
+            onDelete={() => {
+              const newDptos = props.dpto.filter(item => item.divipola !== d.divipola);
+              props.setDpto(newDptos.length > 0 ? newDptos : null);
+            }}
+          />
+        ))}
+        {props.dpto !== null && !Array.isArray(props.dpto) && (
           <Chip
             className={classes.chip}
             size="small"

@@ -18,7 +18,7 @@ const Histogram = props => {
         }
 
         if (props.temporalRange) filters['temporalCoverage'] = props.temporalRange
-        if (props.dpto) filters['dpto'] = props.dpto
+        if (props.dpto && props.dpto.length > 0) filters['dpto'] = props.dpto
         if (props.fondo) filters['fondo'] = props.fondo
         if (props.tipo) filters['tipo'] = props.tipo
         if (props.idents) filters.idents = props.idents

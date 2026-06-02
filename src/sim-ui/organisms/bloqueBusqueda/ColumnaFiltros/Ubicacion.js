@@ -13,7 +13,7 @@ import Subtitle from "../../../atoms/Subtitle";
 
 const Ubicacion = (props) => {
   const theme = useTheme();
-  const [dpto, setDpto] = useState(null);
+  const [dpto, setDpto] = useState([]);
   const dptos = [
     { nombre: "AMAZONAS", id: "91" },
     { nombre: "ANTIOQUIA", id: "05" },
@@ -54,10 +54,13 @@ const Ubicacion = (props) => {
   ];
 
   useEffect(() => {
-    if (props.dpto) {
+    if (props.dpto && Array.isArray(props.dpto)) {
+      const objs = props.dpto.map(d => ({ id: d.divipola, nombre: d.nombre }));
+      setDpto(objs);
+    } else if (props.dpto && props.dpto.divipola) {
       const obj = { id: props.dpto.divipola, nombre: props.dpto.nombre };
-      setDpto(obj);
-    } else setDpto(null);
+      setDpto([obj]);
+    } else setDpto([]);
   }, [props.dpto]);
 
   return (
@@ -72,33 +75,32 @@ const Ubicacion = (props) => {
             <Select
               labelId="dpto-select-label"
               id="dpto-select"
-              value={dpto ? dpto.id : ""}
+              multiple
+              value={dpto ? dpto.map(d => d.id) : []}
               label="Departamento"
-              onChange={(e, v) => {
-                var index = dptos.find((d) => d.id === v.props.value);
-                setDpto(index);
+              onChange={(e) => {
+                const selectedIds = e.target.value;
+                const selectedDptos = selectedIds.map(id => dptos.find(d => d.id === id));
+                setDpto(selectedDptos);
 
-                const obj = { divipola: index.id, nombre: index.nombre };
-                props.setDpto(obj);
+                const objs = selectedDptos.map(index => ({ divipola: index.id, nombre: index.nombre }));
+                props.setDpto(objs.length > 0 ? objs : null);
               }}
+              renderValue={(selected) => selected.map(id => dptos.find(d => d.id === id)?.nombre).join(', ')}
             >
               {dptos.map((d) => {
-                return <MenuItem value={d.id}>{d.nombre}</MenuItem>;
+                return <MenuItem key={d.id} value={d.id}>{d.nombre}</MenuItem>;
               })}
             </Select>
           </FormControl>
 
           <MapaColombia
-            key={dpto ? dpto.id : ""}
+            key={dpto ? dpto.length : ""}
             geo={
-              dpto
+              dpto && dpto.length > 0
                 ? [
-                    {
-                      code: "CO-" + dpto.id,
-                    },
-                    {
-                      code: "CO",
-                    },
+                    ...dpto.map(d => ({ code: "CO-" + d.id })),
+                    { code: "CO" },
                   ]
                 : []
             }

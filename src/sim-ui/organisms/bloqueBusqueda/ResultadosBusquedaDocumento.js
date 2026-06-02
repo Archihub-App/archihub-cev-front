@@ -127,7 +127,7 @@ const ResultadosBusquedaDocumento = (props) => {
         if (props.temporalRange !== null)
             filters.temporalCoverage = props.temporalRange;
 
-        if (props.dpto !== null) filters.dpto = props.dpto;
+        if (props.dpto !== null && props.dpto.length > 0) filters.dpto = props.dpto;
         if (props.tipo !== null) filters.tipo = props.tipo;
         if (props.fondo !== null && props.fondo.length > 0)
             filters.fondo = props.fondo.map((f) => {

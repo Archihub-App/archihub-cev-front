@@ -105,14 +105,13 @@ const ResultadosBusqueda = (props) => {
       })
     }
     if (props.dpto) {
+      let dptos = Array.isArray(props.dpto) ? props.dpto : [props.dpto];
       fiters_.location_filters.push({
         destiny: 'metadata.firstLevel.geographicdescriptors',
-        value: [
-          {
-            level_0: { ident: "CO", name: "Colombia" },
-            level_1: { ident: props.dpto.divipola, name: props.dpto.nombre }
-          }
-        ]
+        value: dptos.map(d => ({
+          level_0: { ident: "CO", name: "Colombia" },
+          level_1: { ident: d.divipola, name: d.nombre }
+        }))
       })
     }
     if (props.padre) {
